@@ -28,4 +28,4 @@ $(TARGET) : $(OBJS)
 $(INSTALL) : 
 	mv *.o $(BUILD_DIR) && mv $(TARGET) $(BIN_DIR)
 
-#gcc teste.cpp -I/usr/include/CEGUI/ -lSDL -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
+#gcc test.cpp -I/usr/local/include/CEGUI/ -lSDL -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer

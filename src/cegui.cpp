@@ -105,23 +105,7 @@ void inject_input (bool & must_quit)
             case SDL_KEYDOWN:
                 /*  to tell CEGUI that a key was pressed, we inject the scancode. */
                 CEGUI::System::getSingleton().injectKeyDown(e.key.keysym.scancode);
-                /*  as for the character it's a litte more complicated.
-                 *                   *
-                 *                   we'll
-                 *                   use
-                 *                   for
-                 *                   translated
-                 *                   unicode
-                 *                   value.
-                 *                                   *
-                 *                                   this
-                 *                                   is
-                 *                                   described
-                 *                                   in
-                 *                                   more
-                 *                                   detail
-                 *                                   below.
-                 *                                                   */
+                /*  as for the character it's a litte more complicated. */
                 if ((e.key.keysym.unicode & 0xFF80) == 0) {
                     CEGUI::System::getSingleton().injectChar(e.key.keysym.unicode & 0x7F);
                 }
@@ -167,8 +151,7 @@ void render_gui()
 }
 
 
-void main_loop () 
-{
+void main_loop () {
     bool must_quit = false;
     /*  get "run-time" in seconds */
     double last_time_pulse = 0.001*static_cast<double>(SDL_GetTicks());
@@ -187,7 +170,6 @@ int main (int argc, char **argv)
     SDL_Init (SDL_INIT_VIDEO);
     screen = SDL_SetVideoMode (600, 480, 0, SDL_OPENGL);
     if (screen == NULL) {
-        /*  Se ainda nÃ£o der, desiste! */ 
         fprintf (stderr, "ImpossÃ­vel ajustar ao vÃ­deo: %s\n", SDL_GetError ());
         exit (1);
     }
