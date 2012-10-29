@@ -2,7 +2,7 @@
 CC=g++
 #SHELL:=/bin/bash
 INCLUDE_DIR=-Iinclude 
-LIBS=-lSDL -lSDLmain
+LIBS=-lSDL -lSDLmain -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
 CFLAGS=-Wall -O3
 
 BUILD_DIR=../build/
@@ -23,9 +23,9 @@ $(TARGET) : $(OBJS)
 	$(CC) -o $@ $^ $(LIBS)
                          
 %.o : %.cpp
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@ -I/usr/local/include/CEGUI
 
 $(INSTALL) : 
 	mv *.o $(BUILD_DIR) && mv $(TARGET) $(BIN_DIR)
 
-#gcc teste.cpp -I/usr/include/CEGUI/ -lSDL -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
+#gcc test.cpp -I/usr/local/include/CEGUI/ -lSDL -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer

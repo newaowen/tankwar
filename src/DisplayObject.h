@@ -16,15 +16,24 @@
  * =====================================================================================
  */
 
-class DisplayObject {
+#ifndef _DISPLAY_OBJECT_
+#define _DISPLAY_OBJECT_
 
-    public: 
-        float x, y;
-        Shape   shape;    
-        Texture texture;
-        bool  visible;
-        // sprite
-    public:
-        render();
-        setTexture();
-}
+#include <SDL/SDL.h>
+#include "Shape.h"
+#include "Texture.h"
+
+class DisplayObject {
+public: 
+    float x, y;
+    bool  visible;
+    Shape   shape;    
+    Texture texture;
+    //Sprite  sprite;
+public:
+    virtual void render();
+    void setTexture(Texture& tex);
+};
+
+
+#endif

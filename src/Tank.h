@@ -16,28 +16,33 @@
  * =====================================================================================
  */
 
-abstract class AnimateObject : DisplayObject {
+#ifndef _TANK_
+#define _TANK_
+
+#include "DisplayObject.h"
+
+class AnimateObject : DisplayObject {
     public :
         float speed;
         float direction; 
         int animateStat;
         bool playOver;
     public :
-        move();
-        playAnimate();
+        void move();
+        void playAnimate();
 
-}
+};
 
 class Bullet : AnimateObject {
 
-}
+};
 
 class Weapon {
     public:
         float damage;
     public:
-        fire();
-}
+        void fire();
+};
 
 class Tank : AnimateObject {
     public: 
@@ -49,25 +54,25 @@ class Tank : AnimateObject {
 
     public: 
         bool isDead();
-}
+};
 
 
 // 
 class MapElement : DisplayObject {
 
-}
+};
 
 
 class Map  {
     public: 
-        HashMap<Vector2, MapElement> elements;
+        //HashMap<Vector2, MapElement> elements;
 
-}
+};
 
-collisionDetect(AnimateObject, Map);
-collisionDetect(AnimateObject, AnimateObject);
+//collisionDetect(AnimateObject, Map);
+//collisionDetect(AnimateObject, AnimateObject);
 
 // 剧情
 
 
-
+#endif
