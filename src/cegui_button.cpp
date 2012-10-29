@@ -26,7 +26,6 @@
 #include <iostream>
 
 using namespace std ;
-
 using namespace CEGUI ;
 
 // Change according to your installation path:
@@ -150,12 +149,12 @@ void inject_input( bool & must_quit )
 
                     //    A WM quit event occured:
                 case SDL_QUIT:
-                            must_quit = true ;
-                            break ;
+                        must_quit = true ;
+                        break ;
 
                 case SDL_VIDEORESIZE:
-                            CEGUI::System::getSingleton().notifyDisplaySizeChanged( CEGUI::Size( e.resize.w, e.resize.h ) ) ;
-                            break ;
+                        CEGUI::System::getSingleton().notifyDisplaySizeChanged( CEGUI::Size( e.resize.w, e.resize.h ) ) ;
+                        break ;
 
             }
 
@@ -179,30 +178,32 @@ void inject_time_pulse( double & last_time_pulse) {
 
 }
 
+void drawTestScene() {
 
+}
 
 void render_gui() {
     // Clears the colour buffer:
-    glClear( GL_COLOR_BUFFER_BIT) ;
+    glClear( GL_COLOR_BUFFER_BIT);
 
     //Renders the GUI:
-    CEGUI::System::getSingleton().renderGUI() ;
+    CEGUI::System::getSingleton().renderGUI();
+
+    // draw scene
+    drawTestScene();
 
     //Updates the screen:
-    SDL_GL_SwapBuffers() ;
+    SDL_GL_SwapBuffers();
 }
 
 
 void main_loop () {
-
     cout << " - entering main loop" << endl ;
-
     bool must_quit = false ;
-
     //get "run-time" in seconds 
     double last_time_pulse = 0.001 * static_cast<double>( SDL_GetTicks()) ;
 
-    while ( !  must_quit) {
+    while (!must_quit) {
         inject_input( must_quit) ;
         inject_time_pulse( last_time_pulse) ;
         render_gui() ;
@@ -296,7 +297,14 @@ WindowManager & init_CEGUI( SDL_Surface & surface) {
     return WindowManager::getSingleton() ; 
 }
 
+bool onStartNewGame(const CEGUI::EventArgs& args) {
+    cout << "-- start new game --" << endl;
+}
 
+bool onExitApp(const CEGUI::EventArgs& args) {
+    // fire exit event
+    cout << "-- exit app --" << endl;
+}
 
 void create_gui( WindowManager & winManager) {
 
@@ -320,12 +328,21 @@ void create_gui( WindowManager & winManager) {
     */
     // push button
     PushButton* btn = static_cast<PushButton*>(winManager.createWindow("TaharezLook/Button","JumpPushButton"));
-    btn->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5,0),CEGUI::UDim(0.5,0)));
+    btn->setPosition(CEGUI::UVector2(CEGUI::UDim(0.45,0),CEGUI::UDim(0.4,0)));
     btn->setSize(UVector2(UDim(0,100),UDim(0,40)));
     btn->setText("start");
     rootWin.addChildWindow(btn);
 
-    //事件监听
+    // exit button
+    PushButton* exitBtn = static_cast<PushButton*>(winManager.createWindow("TaharezLook/Button","exitPushButton"));
+    exitBtn->setPosition(CEGUI::UVector2(CEGUI::UDim(0.45,0),CEGUI::UDim(0.5,0)));
+    exitBtn->setSize(UVector2(UDim(0,100),UDim(0,40)));
+    exitBtn->setText("exit");
+    rootWin.addChildWindow(exitBtn);
+
+    // 事件监听
+    btn->subscribeEvent(PushButton::EventClicked, Event::Subscriber(&onStartNewGame)); 
+    exitBtn->subscribeEvent(PushButton::EventClicked, Event::Subscriber(&onExitApp)); 
 }
 
 
@@ -336,7 +353,7 @@ int main( int argc, char *argv[]) {
     WindowManager & winManager = init_CEGUI( screen) ;
     create_gui( winManager) ;
 
-    main_loop() ;
+    main_loop();
     cout << " - ending CEGUI test" << endl ;
 }
 
