@@ -22,6 +22,7 @@ private:
 	bool runFlag;
     int width;
     int height;
+    string title;
     string CEGUIInstallBasePath;
     vector<DisplayObject*> displayObjects;
 	GameApp();
@@ -39,6 +40,8 @@ public:
 
     // 初始化窗口 , sdl, cegui等
 	bool init(string title, int width = 640, int height = 480);
+	void initSDL();
+    void initOpenGL();
     void init_CEGUI(SDL_Surface & surface);
     void set_CEGUI_paths();
 

@@ -20,9 +20,20 @@ GameApp::~GameApp(void) {
 
 // 窗口初始化
 bool GameApp::init(string title, int width, int height) {
+    this->title = title;
     this->width = width;
     this->height = height;
 
+    initSDL();
+   
+    init_CEGUI(*screen) ;
+
+    initOpenGL();
+
+	return true;
+}
+
+void GameApp::initSDL() {
     SDL_WM_SetCaption(title.c_str(), NULL );
     cout << " - initializing SDL" << endl ;
 
@@ -32,7 +43,7 @@ bool GameApp::init(string title, int width, int height) {
         exit(0) ;
     }
 
-    this->screen = SDL_SetVideoMode ( width, height, 0, SDL_OPENGL) ;
+    this->screen = SDL_SetVideoMode ( this->width, this->height, 0, SDL_OPENGL) ;
 
     if ( screen == 0) { 
         cerr << "Unable to set OpenGL videomode: " << SDL_GetError() ;
@@ -43,15 +54,31 @@ bool GameApp::init(string title, int width, int height) {
     SDL_ShowCursor( SDL_DISABLE) ;
     SDL_EnableUNICODE(1) ;
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) ;
+}
 
-    init_CEGUI(*screen) ;
 
-	return true;
+void GameApp::initOpenGL() {
+    float ratio = (float) this->width / (float) this->height;
+    glShadeModel( GL_SMOOTH );
+   
+    /*  Culling. */
+    glCullFace( GL_BACK );
+    glFrontFace( GL_CCW );
+    glEnable( GL_CULL_FACE );
+    
+    /*  Set the clear color. */
+    glClearColor( 0, 0, 0, 0 );
+       
+    /*  Setup our viewport. */
+    glViewport( 0, 0, width, height );
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity( );
+    gluPerspective( 60.0, ratio, 1.0, 1024.0 );
 }
 
 // 添加display函数
 void GameApp::addDisplayObject(DisplayObject* obj) {
-    //this->displayObject.push_back(obj);
+    this->displayObjects.push_back(obj);
 }
 
 int GameApp::cleanup() {
@@ -197,16 +224,15 @@ void GameApp::inject_time_pulse( double & last_time_pulse) {
 
 void GameApp::render() {
     // Clears the colour buffer:
-    glClear( GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     //Renders the GUI:
     CEGUI::System::getSingleton().renderGUI();
 
     // draw scene
-    // drawTestScene();
     int i = 0;
     for (i = 0; i < displayObjects.size(); i++) {
-        //displayObjects[i].render();
+        displayObjects[i]->render();
     }
 
     //Updates the screen:

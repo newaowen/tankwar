@@ -15,7 +15,11 @@
 #include "DisplayObject.h"
 
 void DisplayObject::render() {
+    this->drawer();
+}
 
+void DisplayObject::setDrawer(Drawer d) {
+    this->drawer = d;
 }
 
 void DisplayObject::setTexture(Texture& tex) {
