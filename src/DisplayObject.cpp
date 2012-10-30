@@ -15,10 +15,14 @@
 #include "DisplayObject.h"
 
 void DisplayObject::render() {
+    drawFunc();
+}
 
+void DisplayObject::setDrawFunc(DrawFunc func) {
+    drawFunc = func;
 }
 
 void DisplayObject::setTexture(Texture& tex) {
-    this->texture = tex;
+    texture = tex;
 }
 

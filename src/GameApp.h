@@ -22,6 +22,7 @@ private:
 	bool runFlag;
     int width;
     int height;
+    string title;
     string CEGUIInstallBasePath;
     vector<DisplayObject*> displayObjects;
 	GameApp();
@@ -41,6 +42,9 @@ public:
 	bool init(string title, int width = 640, int height = 480);
     void init_CEGUI(SDL_Surface & surface);
     void set_CEGUI_paths();
+    void initSDL();
+    void initOpenGL();
+    void glSet2D();
 
     // sdl and cegui inter operation
     void handle_mouse_down(Uint8 button);

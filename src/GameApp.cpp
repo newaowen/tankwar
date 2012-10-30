@@ -22,7 +22,16 @@ GameApp::~GameApp(void) {
 bool GameApp::init(string title, int width, int height) {
     this->width = width;
     this->height = height;
+    this->title = title;
 
+    initSDL();
+    initOpenGL();
+    init_CEGUI(*screen);
+
+	return true;
+}
+
+void GameApp::initSDL() {
     SDL_WM_SetCaption(title.c_str(), NULL );
     cout << " - initializing SDL" << endl ;
 
@@ -43,15 +52,37 @@ bool GameApp::init(string title, int width, int height) {
     SDL_ShowCursor( SDL_DISABLE) ;
     SDL_EnableUNICODE(1) ;
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) ;
-
-    init_CEGUI(*screen) ;
-
-	return true;
 }
+
+void GameApp::initOpenGL() {
+	glEnable(GL_TEXTURE_2D);
+    glSet2D();
+}
+
+
+void GameApp::glSet2D() {
+    GLint iViewport[4];
+
+    // Get a copy of the viewport
+    glGetIntegerv( GL_VIEWPORT, iViewport );
+    glMatrixMode( GL_PROJECTION );
+    glPushMatrix();
+    glLoadIdentity();
+
+    glOrtho( iViewport[0], iViewport[0]+iViewport[2], iViewport[1]+iViewport[3], iViewport[1], -1, 1 );
+    glMatrixMode( GL_MODELVIEW );
+    glPushMatrix();
+    glLoadIdentity();
+
+    glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT );
+    glDisable( GL_DEPTH_TEST );
+    glDisable( GL_LIGHTING );
+}
+
 
 // Ìí¼Ódisplayº¯Êý
 void GameApp::addDisplayObject(DisplayObject* obj) {
-    //this->displayObject.push_back(obj);
+    this->displayObjects.push_back(obj);
 }
 
 int GameApp::cleanup() {
@@ -197,7 +228,7 @@ void GameApp::inject_time_pulse( double & last_time_pulse) {
 
 void GameApp::render() {
     // Clears the colour buffer:
-    glClear( GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     //Renders the GUI:
     CEGUI::System::getSingleton().renderGUI();
@@ -206,7 +237,7 @@ void GameApp::render() {
     // drawTestScene();
     int i = 0;
     for (i = 0; i < displayObjects.size(); i++) {
-        //displayObjects[i].render();
+        displayObjects[i]->render();
     }
 
     //Updates the screen:

@@ -23,15 +23,17 @@
 #include "Shape.h"
 #include "Texture.h"
 
+typedef void (*DrawFunc)();
 class DisplayObject {
 public: 
     float x, y;
     bool  visible;
     Shape   shape;    
     Texture texture;
-    //Sprite  sprite;
+    DrawFunc drawFunc;
 public:
     virtual void render();
+    void setDrawFunc(DrawFunc);
     void setTexture(Texture& tex);
 };
 

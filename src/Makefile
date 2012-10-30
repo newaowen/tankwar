@@ -2,7 +2,7 @@
 CC=g++
 #SHELL:=/bin/bash
 INCLUDE_DIR=-Iinclude 
-LIBS=-lSDL -lSDLmain -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
+LIBS=-lSDL -lSDLmain -lSDL_image -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
 CFLAGS=-Wall -O3
 
 BUILD_DIR=../build/
