@@ -44,6 +44,9 @@ public:
     void initOpenGL();
     void init_CEGUI(SDL_Surface & surface);
     void set_CEGUI_paths();
+    void initSDL();
+    void initOpenGL();
+    void glSet2D();
 
     // sdl and cegui inter operation
     void handle_mouse_down(Uint8 button);

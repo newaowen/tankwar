@@ -23,12 +23,18 @@ bool GameApp::init(string title, int width, int height) {
     this->title = title;
     this->width = width;
     this->height = height;
+    this->title = title;
 
     initSDL();
+<<<<<<< HEAD
    
     init_CEGUI(*screen) ;
 
     initOpenGL();
+=======
+    initOpenGL();
+    init_CEGUI(*screen);
+>>>>>>> b687e731e368e6ce4e242d788f416b31b00a36a2
 
 	return true;
 }
@@ -55,6 +61,7 @@ void GameApp::initSDL() {
     SDL_EnableUNICODE(1) ;
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) ;
 }
+<<<<<<< HEAD
 
 
 void GameApp::initOpenGL() {
@@ -74,7 +81,34 @@ void GameApp::initOpenGL() {
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity( );
     gluPerspective( 60.0, ratio, 1.0, 1024.0 );
+=======
+
+void GameApp::initOpenGL() {
+	glEnable(GL_TEXTURE_2D);
+    glSet2D();
 }
+
+
+void GameApp::glSet2D() {
+    GLint iViewport[4];
+
+    // Get a copy of the viewport
+    glGetIntegerv( GL_VIEWPORT, iViewport );
+    glMatrixMode( GL_PROJECTION );
+    glPushMatrix();
+    glLoadIdentity();
+
+    glOrtho( iViewport[0], iViewport[0]+iViewport[2], iViewport[1]+iViewport[3], iViewport[1], -1, 1 );
+    glMatrixMode( GL_MODELVIEW );
+    glPushMatrix();
+    glLoadIdentity();
+
+    glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT );
+    glDisable( GL_DEPTH_TEST );
+    glDisable( GL_LIGHTING );
+>>>>>>> b687e731e368e6ce4e242d788f416b31b00a36a2
+}
+
 
 // Ìí¼Ódisplayº¯Êý
 void GameApp::addDisplayObject(DisplayObject* obj) {
