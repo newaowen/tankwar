@@ -20,23 +20,24 @@
 #define _DISPLAY_OBJECT_
 
 #include <SDL/SDL.h>
-#include "Shape.h"
+#include "Sprite.h"
 #include "Texture.h"
+
+namespace Tengine {
 
 typedef void (*DrawFunc)();
 class DisplayObject {
 public: 
     float x, y;
     bool  visible;
-    Shape   shape;    
-    Texture texture;
-    //Sprite  sprite;
+    Sprite*  sprite;
     DrawFunc drawFunc;
 public:
+    DisplayObject(Sprite* sprite);
     virtual void render();
     void setDrawFunc(DrawFunc);
-    void setTexture(Texture& tex);
 };
 
+}
 
 #endif

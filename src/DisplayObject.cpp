@@ -14,15 +14,21 @@
  */
 #include "DisplayObject.h"
 
+namespace Tengine {
+
+DisplayObject::DisplayObject(Sprite* sprite) {
+    this->sprite = sprite;
+}
+
 void DisplayObject::render() {
-    this->drawFunc();
+    //this->drawFunc();
+    if (sprite) {
+        sprite->draw();
+    }
 }
 
 void DisplayObject::setDrawFunc(DrawFunc func) {
     drawFunc = func;
 }
 
-void DisplayObject::setTexture(Texture& tex) {
-    texture = tex;
 }
-

@@ -1,191 +1,11 @@
 #include "GameApp.h"
 #include "Tank.h"
  
-void drawTest() {
-    static float angle = 0.0f;
-
-    static GLfloat v0[] = { -1.0f, -1.0f,  1.0f };
-    static GLfloat v1[] = {  1.0f, -1.0f,  1.0f };
-    static GLfloat v2[] = {  1.0f,  1.0f,  1.0f };
-    static GLfloat v3[] = { -1.0f,  1.0f,  1.0f };
-    static GLfloat v4[] = { -1.0f, -1.0f, -1.0f };
-    static GLfloat v5[] = {  1.0f, -1.0f, -1.0f };
-    static GLfloat v6[] = {  1.0f,  1.0f, -1.0f };
-    static GLfloat v7[] = { -1.0f,  1.0f, -1.0f };
-    static GLubyte red[]    = { 255,   0,   0, 255 };
-    static GLubyte green[]  = {   0, 255,   0, 255 };
-    static GLubyte blue[]   = {   0,   0, 255, 255 };
-    static GLubyte white[]  = { 255, 255, 255, 255 };
-    static GLubyte yellow[] = {   0, 255, 255, 255 };
-    static GLubyte black[]  = {   0,   0,   0, 255 };
-    static GLubyte orange[] = { 255, 255,   0, 255 };
-    static GLubyte purple[] = { 255,   0, 255,   0 };
-
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-    /*  We don't want to modify the projection matrix. */
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity( );
-
-    /*  Move down the z-axis. */
-    glTranslatef( 0.0, 0.0, -5.0 );
-
-    /*  Rotate. */
-    glRotatef( angle, 0.0, 1.0, 0.0 ); 
-
-    glBegin( GL_TRIANGLES );
-
-    glColor4ubv( red );
-    glVertex3fv( v0 );
-    glColor4ubv( green );
-    glVertex3fv( v1 );
-    glColor4ubv( blue );
-    glVertex3fv( v2 );
-
-    glColor4ubv( red );
-    glVertex3fv( v0 );
-    glColor4ubv( blue );
-    glVertex3fv( v2 );
-    glColor4ubv( white );
-    glVertex3fv( v3 );
-
-    glColor4ubv( green );
-    glVertex3fv( v1 );
-    glColor4ubv( black );
-    glVertex3fv( v5 );
-    glColor4ubv( orange );
-    glVertex3fv( v6 );
-
-    glColor4ubv( green );
-    glVertex3fv( v1 );
-    glColor4ubv( orange );
-    glVertex3fv( v6 );
-    glColor4ubv( blue );
-    glVertex3fv( v2 );
-
-    glColor4ubv( black );
-    glVertex3fv( v5 );
-    glColor4ubv( yellow );
-    glVertex3fv( v4 );
-    glColor4ubv( purple );
-    glVertex3fv( v7 );
-
-    glColor4ubv( black );
-    glVertex3fv( v5 );
-    glColor4ubv( purple );
-    glVertex3fv( v7 );
-    glColor4ubv( orange );
-    glVertex3fv( v6 );
-
-    glColor4ubv( yellow );
-    glVertex3fv( v4 );
-    glColor4ubv( red );
-    glVertex3fv( v0 );
-    glColor4ubv( white );
-    glVertex3fv( v3 );
-
-    glColor4ubv( yellow );
-    glVertex3fv( v4 );
-    glColor4ubv( white );
-    glVertex3fv( v3 );
-    glColor4ubv( purple );
-    glVertex3fv( v7 );
-
-    glColor4ubv( white );
-    glVertex3fv( v3 );
-    glColor4ubv( blue );
-    glVertex3fv( v2 );
-    glColor4ubv( orange );
-    glVertex3fv( v6 );
-
-    glColor4ubv( white );
-    glVertex3fv( v3 );
-    glColor4ubv( orange );
-    glVertex3fv( v6 );
-    glColor4ubv( purple );
-    glVertex3fv( v7 );
-
-    glColor4ubv( green );
-    glVertex3fv( v1 );
-    glColor4ubv( red );
-    glVertex3fv( v0 );
-    glColor4ubv( yellow );
-    glVertex3fv( v4 );
-
-    glColor4ubv( green );
-    glVertex3fv( v1 );
-    glColor4ubv( yellow );
-    glVertex3fv( v4 );
-    glColor4ubv( black );
-    glVertex3fv( v5 );
-
-    glEnd( );
-
-    cout << "draw test..." << endl;
-}
-
 #include "SDL/SDL_image.h"
 
-GLuint texture;         // This is a handle to our texture object
+/*
 void SDL_Surface2Texture() {
-    SDL_Surface *surface;   // This surface will tell us the details of the image
-    GLenum texture_format;
-    GLint  nOfColors;
-
-    surface = IMG_Load("/home/aowen/gamedev/tankwar/resource/img/tanks.png");
-    if ( surface ) { 
-        // Check that the image's width is a power of 2
-        if ( (surface->w & (surface->w - 1)) != 0 ) {
-            printf("warning: image.bmp's width is not a power of 2\n");
-        }
-        //               
-        //                  // Also check if the height is a power of 2
-        if ( (surface->h & (surface->h - 1)) != 0 ) {
-            printf("warning: image.bmp's height is not a power of 2\n");
-        }
-
-        nOfColors = surface->format->BytesPerPixel;
-        if (nOfColors == 4)     // contains an alpha channel
-        {
-            if (surface->format->Rmask == 0x000000ff)
-                texture_format = GL_RGBA;
-            else
-                texture_format = GL_BGRA;
-        } else if (nOfColors == 3)     // no alpha channel
-        {
-            if (surface->format->Rmask == 0x000000ff)
-                texture_format = GL_RGB;
-            else
-                texture_format = GL_BGR;
-        } else {
-            printf("warning: the image is not truecolor..  this will probably break\n");
-            // this error should not go
-            // unhandled
-        }
-        // Have OpenGL generate a texture object handle for us
-        glGenTextures( 1, &texture );
-        //     
-        //        // Bind the texture object
-        glBindTexture( GL_TEXTURE_2D, texture );
-        //             
-        //                // Set the texture's stretching properties
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-        //                                 
-        //                                    // Edit the texture object's image data using the information SDL_Surface
-        //                                    gives us
-        glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0, texture_format, GL_UNSIGNED_BYTE, surface->pixels);
-    } else {
-        printf("SDL could not load image.bmp: %s\n", SDL_GetError());
-        SDL_Quit();
-        return;
-    }    
-     
-    // Free the SDL_Surface only if it was successfully created
-    if ( surface ) { 
-        SDL_FreeSurface( surface );
-    }
-
+    surface = IMG_Load("../resource/img/tanks.png");
     glBindTexture( GL_TEXTURE_2D, texture);
     glBegin( GL_QUADS );
     //Bottom-left vertex (corner)
@@ -207,6 +27,7 @@ void SDL_Surface2Texture() {
 
 }
 
+*/
 bool onStartNewGame(const CEGUI::EventArgs& args) {
     cout << "-- start new game --" << endl;
 
@@ -215,12 +36,16 @@ bool onStartNewGame(const CEGUI::EventArgs& args) {
 
     // 开始新场景
     System::getSingleton().setGUISheet(app->playWin); 
-    DisplayObject* obj = new DisplayObject();
-    obj->setDrawFunc(SDL_Surface2Texture);
 
-    DisplayObject * obj = new DisplayObject();
-    obj->setDrawer(drawTest);
+    Tengine::Texture* tex = new Tengine::Texture();
 
+    tex->load("/home/aowen/gamedev/tankwar/resource/img/tanks.png");
+
+    SDL_Rect rect = {0, 0, 20, 20};
+    Sprite* spr = new Sprite(rect, tex);
+    DisplayObject* obj = new DisplayObject(spr);
+
+    //obj->setDrawFunc(SDL_Surface2Texture);
     //Tank* tank = new Tank();
     //tank->addEventListener
     app->addDisplayObject(obj);

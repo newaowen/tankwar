@@ -2,8 +2,8 @@
 #define _GAME_APP_
 
 #include <SDL/SDL.h>
-#include <string>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "CEGUI.h"
@@ -16,6 +16,7 @@
 
 using namespace std;
 using namespace CEGUI;
+using namespace Tengine;
 
 class GameApp {
 private:
@@ -42,11 +43,9 @@ public:
 	bool init(string title, int width = 640, int height = 480);
 	void initSDL();
     void initOpenGL();
+    void glSet2D();
     void init_CEGUI(SDL_Surface & surface);
     void set_CEGUI_paths();
-    void initSDL();
-    void initOpenGL();
-    void glSet2D();
 
     // sdl and cegui inter operation
     void handle_mouse_down(Uint8 button);

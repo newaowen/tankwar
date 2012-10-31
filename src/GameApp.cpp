@@ -26,15 +26,8 @@ bool GameApp::init(string title, int width, int height) {
     this->title = title;
 
     initSDL();
-<<<<<<< HEAD
-   
-    init_CEGUI(*screen) ;
-
-    initOpenGL();
-=======
     initOpenGL();
     init_CEGUI(*screen);
->>>>>>> b687e731e368e6ce4e242d788f416b31b00a36a2
 
 	return true;
 }
@@ -61,27 +54,7 @@ void GameApp::initSDL() {
     SDL_EnableUNICODE(1) ;
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) ;
 }
-<<<<<<< HEAD
 
-
-void GameApp::initOpenGL() {
-    float ratio = (float) this->width / (float) this->height;
-    glShadeModel( GL_SMOOTH );
-   
-    /*  Culling. */
-    glCullFace( GL_BACK );
-    glFrontFace( GL_CCW );
-    glEnable( GL_CULL_FACE );
-    
-    /*  Set the clear color. */
-    glClearColor( 0, 0, 0, 0 );
-       
-    /*  Setup our viewport. */
-    glViewport( 0, 0, width, height );
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity( );
-    gluPerspective( 60.0, ratio, 1.0, 1024.0 );
-=======
 
 void GameApp::initOpenGL() {
 	glEnable(GL_TEXTURE_2D);
@@ -106,7 +79,6 @@ void GameApp::glSet2D() {
     glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT );
     glDisable( GL_DEPTH_TEST );
     glDisable( GL_LIGHTING );
->>>>>>> b687e731e368e6ce4e242d788f416b31b00a36a2
 }
 
 
@@ -245,7 +217,6 @@ void GameApp::inject_input( bool & must_quit ) {
 void GameApp::inject_time_pulse( double & last_time_pulse) {
     // Get current "run-time" in seconds:
     double current_time_pulse = 0.001 * SDL_GetTicks() ;
-
 
     //   Inject the time that passed since the last call:
     CEGUI::System::getSingleton().injectTimePulse(
