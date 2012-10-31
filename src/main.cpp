@@ -126,7 +126,7 @@ void drawTest() {
 
 #include "SDL/SDL_image.h"
 
-    GLuint texture;         // This is a handle to our texture object
+GLuint texture;         // This is a handle to our texture object
 void SDL_Surface2Texture() {
     SDL_Surface *surface;   // This surface will tell us the details of the image
     GLenum texture_format;
@@ -218,7 +218,6 @@ bool onStartNewGame(const CEGUI::EventArgs& args) {
     DisplayObject* obj = new DisplayObject();
     obj->setDrawFunc(SDL_Surface2Texture);
 
-<<<<<<< HEAD
     DisplayObject * obj = new DisplayObject();
     obj->setDrawer(drawTest);
 
@@ -227,10 +226,6 @@ bool onStartNewGame(const CEGUI::EventArgs& args) {
     app->addDisplayObject(obj);
 
     return true;
-=======
-	app->addDisplayObject(obj);
-    //Tank* tank = new Tank();
->>>>>>> b687e731e368e6ce4e242d788f416b31b00a36a2
 }
 
 bool onExitApp(const CEGUI::EventArgs& args) {
