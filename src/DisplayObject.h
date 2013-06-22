@@ -26,6 +26,7 @@
 namespace Tengine {
 
 typedef void (*DrawFunc)();
+
 class DisplayObject {
 public: 
     float x, y;
@@ -34,8 +35,14 @@ public:
     DrawFunc drawFunc;
 public:
     DisplayObject(Sprite* sprite);
-    virtual void render();
+
+    inline void attachScreen(SDL_Surface* screen) {
+    	sprite->setScreen(screen);
+    }
+
     void setDrawFunc(DrawFunc);
+
+    virtual void render();
 };
 
 }

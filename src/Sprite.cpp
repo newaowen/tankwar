@@ -25,29 +25,41 @@ Sprite::Sprite(SDL_Rect rect, Texture* tex) {
 }
 
 void Sprite::draw() { 
-    glBindTexture(GL_TEXTURE_2D, texture->getId());
+    //glBindTexture(GL_TEXTURE_2D, texture->getId());
     float vertices[] = {
         rect.x, rect.y,
         rect.x, rect.y + rect.h,
         rect.x + rect.w, rect.y + rect.h,
         rect.x + rect.w, rect.y
     };
+
     // texture cood
     float fac_x = (float)texture->getSliceWidth() / texture->getWidth();
     float fac_y = (float)texture->getSliceHeight() / texture->getHeight();
     float off_x = (float)texture->getX() / texture->getWidth();
     float off_y = (float)texture->getY() / texture->getHeight();
 
-    float texturecoords[] = {
+    float textureCoords[] = {
         off_x, off_y,
         off_x, fac_y + off_y,
         fac_x + off_x, fac_y + off_y,
         fac_x + off_x, off_y
     };
 
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, texturecoords);
-    glDrawArrays(GL_QUADS, 0, 4);
+    SDL_Rect offset;
+    offset.x = off_x;
+    offset.y = off_y;
+    offset.w = texture->getSliceWidth();
+    offset.h = texture->getSliceHeight();
+
+    // 获取game surface
+    SDL_BlitSurface(texture->getSurface(), NULL, screen, &offset);
+
+    //　使用sdl显示图片
+    //SDL_blit();
+    //glVertexPointer(2, GL_FLOAT, 0, vertices);
+    //glTexCoordPointer(2, GL_FLOAT, 0, texturecoords);
+    //glDrawArrays(GL_QUADS, 0, 4);
 }
 
 }

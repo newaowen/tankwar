@@ -36,29 +36,35 @@ Texture::~Texture() {
 }
 
 void Texture::load(string fileName) {
-    surface = IMG_Load(fileName.c_str()); // "../resource/img/tanks.png");
-    if ( surface ) { 
-        fromSDLSurface(surface);
+    const char* path = fileName.c_str();
+    SDL_Surface *rawSurface = IMG_Load(path);
+    if (rawSurface) {
+    	surface = SDL_DisplayFormat(rawSurface);
+    	if (surface) {
+    		SDL_FreeSurface(rawSurface);
+    	}
+    	//toOpenGLTexture(surface);
         // Free the SDL_Surface only if it was successfully created
-        if ( surface ) { 
-            SDL_FreeSurface( surface );
-        }
+        //if (surface) {
+        //    SDL_FreeSurface( surface );
+        //}
     } else {
-        printf("SDL could not load image.bmp: %s\n", SDL_GetError());
+        printf("SDL could not load %s: %s\n", path, SDL_GetError());
     }    
 }
 
-void Texture::fromSDLSurface(SDL_Surface* surface) {
+void Texture::toOpenGLTexture(SDL_Surface* surface) {
     // Check that the image's width is a power of 2
-    if ( (surface->w & (surface->w - 1)) != 0 ) {
-        printf("warning: image.bmp's width is not a power of 2\n");
+    if ((surface->w & (surface->w - 1)) != 0) {
+        printf("warning: surface width is not a power of 2\n");
     }
-    //               
-    //                  // Also check if the height is a power of 2
+    // Also check if the height is a power of 2
     if ((surface->h & (surface->h - 1)) != 0 ) {
-        printf("warning: image.bmp's height is not a power of 2\n");
+        printf("warning: surface height is not a power of 2\n");
     }
 
+    /*
+    // SDL_Surface 转换为opengl surface
     GLenum texture_format;
     GLint  nOfColors = surface->format->BytesPerPixel;
     if (nOfColors == 4)     // contains an alpha channel
@@ -78,6 +84,7 @@ void Texture::fromSDLSurface(SDL_Surface* surface) {
         // this error should not go
         // unhandled
     }
+
     // Have OpenGL generate a texture object handle for us
     glEnable(GL_TEXTURE_2D);
     glGenTextures(1, &id);
@@ -86,6 +93,7 @@ void Texture::fromSDLSurface(SDL_Surface* surface) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // Edit the texture object's image data using the information SDL_Surface
     glTexImage2D(GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0, texture_format, GL_UNSIGNED_BYTE, surface->pixels);
+	*/
 
     width = surface->w;
     height = surface->h;

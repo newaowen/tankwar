@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "CEGUI.h"
-#include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
+//#include "CEGUI.h"
+//#include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -15,44 +15,54 @@
 #include "DisplayObject.h"
 
 using namespace std;
-using namespace CEGUI;
 using namespace Tengine;
+
+enum GameStatus {START, RUN, PAUSE, EXIT};
 
 class GameApp {
 private:
-	bool runFlag;
+	// 运行状态
+	enum GameStatus status;
+
     int width;
     int height;
     string title;
-    string CEGUIInstallBasePath;
+    SDL_Surface* screen;
+
+    float fps;
+    int frameDuration;
+
+    //string CEGUIInstallBasePath;
     vector<DisplayObject*> displayObjects;
 	GameApp();
 
 public:
-    DefaultWindow* rootWin;
-    DefaultWindow* playWin;
-    WindowManager* winMgr;
-	SDL_Surface* screen;
+    //DefaultWindow* rootWin;
+    //DefaultWindow* playWin;
+    //WindowManager* winMgr;
+	 ~GameApp();
 
     static GameApp* instance; 
-    static GameApp* getSingleton();
+    static GameApp* GetInstance();
 
-    ~GameApp();
+    inline SDL_Surface* getScreen() { return screen; }
 
     // 初始化窗口 , sdl, cegui等
 	bool init(string title, int width = 640, int height = 480);
 	void initSDL();
-    void initOpenGL();
-    void glSet2D();
-    void init_CEGUI(SDL_Surface & surface);
-    void set_CEGUI_paths();
+    //void initOpenGL();
+    //void glSet2D();
+    //void init_CEGUI(SDL_Surface & surface);
+    //void set_CEGUI_paths();
 
     // sdl and cegui inter operation
-    void handle_mouse_down(Uint8 button);
-    void handle_mouse_up(Uint8 button);
-    void inject_input (bool & must_quit); 
-    void inject_time_pulse(double& last_time_pulse);
+    void onMouseDown(Uint8 button);
+    void onMouseUp(Uint8 button);
+    //void inject_input (bool & must_quit);
+    //void inject_time_pulse(double& last_time_pulse);
     void gameLoop();
+    void eventLoop();
+    void eventHandler(SDL_Event event);
 
     // 实际的渲染函数
     void render();

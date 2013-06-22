@@ -21,51 +21,63 @@
 
 #include "DisplayObject.h"
 
-class AnimateObject : DisplayObject {
-    public :
-        float speed;
-        float direction; 
-        int animateStat;
-        bool playOver;
-    public :
-        void move();
-        void playAnimate();
+class AnimateObject: DisplayObject {
+public:
+	float speed;
+	float direction;
+	int animateStat;
+	bool playOver;
+public:
+	void move();
+	void playAnimate();
 
 };
 
-class Bullet : AnimateObject {
+/** 
+ * 子弹
+ */
+class Bullet: AnimateObject {
 
 };
 
+/*
+ * 武器
+ */
 class Weapon {
-    public:
-        float damage;
-    public:
-        void fire();
+public:
+	float damage;
+public:
+	void fire();
 };
 
-class Tank : AnimateObject {
-    public: 
-        Weapon weapon;
-        int level;
-        float health;
-        float attack;
-        float armor;
+/*
+ * 坦克
+ */
+class Tank: AnimateObject {
+public:
+	Weapon weapon;
+	int level;
+	float health;
+	float attack;
+	float armor;
 
-    public: 
-        bool isDead();
+public:
+	bool isDead();
 };
 
-
-// 
-class MapElement : DisplayObject {
+/*
+ * 地图元素
+ */
+class MapElement: DisplayObject {
 
 };
 
-
-class Map  {
-    public: 
-        //HashMap<Vector2, MapElement> elements;
+/*
+ * 地图
+ */
+class Map {
+public:
+	//HashMap<Vector2, MapElement> elements;
 
 };
 
@@ -73,6 +85,5 @@ class Map  {
 //collisionDetect(AnimateObject, AnimateObject);
 
 // 剧情
-
 
 #endif

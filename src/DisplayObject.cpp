@@ -21,7 +21,6 @@ DisplayObject::DisplayObject(Sprite* sprite) {
 }
 
 void DisplayObject::render() {
-    //this->drawFunc();
     if (sprite) {
         sprite->draw();
     }

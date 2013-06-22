@@ -25,10 +25,13 @@ namespace Tengine {
 
 class Sprite {
 private:
+	SDL_Surface* screen;
     Texture* texture;   
     SDL_Rect rect;
 public:
     Sprite(SDL_Rect rect, Texture* tex);
+
+    void setScreen(SDL_Surface* screen) { this->screen = screen; }
     void setTexture(Texture* tex);
     void draw();
 };

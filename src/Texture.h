@@ -38,12 +38,13 @@ public:
 public:
     virtual ~Texture();
     virtual void load(string fileName);
-    virtual void fromSDLSurface(SDL_Surface* surface);
+    virtual void toOpenGLTexture(SDL_Surface* surface);
     virtual Texture* slice(int x, int y, int width, int height);
 
     virtual GLuint getId();
     GLuint setId();
 
+    inline SDL_Surface* getSurface() {return surface;} ;
     virtual int getX() { return 0;}
     virtual int getY() { return 0;}
     virtual int getWidth() { return width;}
