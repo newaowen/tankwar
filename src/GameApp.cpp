@@ -39,27 +39,33 @@ bool GameApp::init(string title, int width, int height) {
 }
 
 void GameApp::initSDL() {
-	SDL_WM_SetCaption(title.c_str(), NULL);
-	cout << " - initializing SDL" << endl;
+	Log::i("init SDL");
+
 
 	atexit(SDL_Quit);
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		cerr << "Unable to initialise SDL: " << SDL_GetError();
+	// old: SDL_INIT_VIDEO
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+		Log::e("unable to init SDL: %s", SDL_GetError());
 		exit(0);
 	}
 
-	screen = SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
+	// for opengl
+	// screen = SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
+	// for sdl
+	screen = SDL_SetVideoMode(this->width, this->height, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
 	if (screen == 0) {
-		cerr << "Unable to set OpenGL videomode: " << SDL_GetError();
+		Log::e("unable to set OpenGL video mode", SDL_GetError());
 		SDL_Quit();
 		exit(0);
 	}
+	// 设置窗口标题
+	SDL_WM_SetCaption(title.c_str(), NULL);
 
-	SDL_ShowCursor(SDL_DISABLE);
+	/* for cegui
+	SDL_ShowCursor();
 	SDL_EnableUNICODE(1);
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-	// 事件回调函数
+	*/
 }
 
 /*
@@ -240,21 +246,19 @@ void GameApp::eventLoop() {
 }
 
 void GameApp::eventHandler(SDL_Event event) {
-	// log
-	if (event.type == SDL_QUIT) {
+	if (event.type == SDL_QUIT) { //退出事件
 		status = EXIT;
+		Log::i("catch exit event");
 	}
 }
 
 void GameApp::gameLoop() {
-	cout << " - entering main loop" << endl;
-	//bool must_quit = false;
+	Log::i("begin game loop");
+
 	//get "run-time" in seconds
 	int startTs = SDL_GetTicks();
-
 	while (status == RUN) {
 		eventLoop();
-
 		// 渲染
 		render();
 
@@ -266,21 +270,25 @@ void GameApp::gameLoop() {
 		}
 	}
 
-	cout << "[leaving game loop]" << endl;
+	Log::i("leaving game loop");
 }
 
 void GameApp::render() {
 	//Clears the colour buffer:
 	//glClear(GL_COLOR_BUFFER_BIT);
-
 	// draw scene
 	int i = 0;
 	for (i = 0; i < displayObjects.size(); i++) {
 		displayObjects[i]->render();
 	}
 
-	//Updates the screen:
-	SDL_GL_SwapBuffers();
+	//[opengl]Updates the screen:
+	//SDL_GL_SwapBuffers();
+
+	// sdl flip
+	if (SDL_Flip(screen) == -1) {
+		Log::w("SDL flip screen fail: %s", SDL_GetError());
+	}
 }
 
 /*

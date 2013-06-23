@@ -13,6 +13,7 @@
 #include <GL/glu.h>
 
 #include "DisplayObject.h"
+#include "Log.h"
 
 using namespace std;
 using namespace Tengine;

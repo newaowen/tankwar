@@ -25,6 +25,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+#include "Log.h"
+
 using namespace std;
 
 namespace Tengine {

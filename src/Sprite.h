@@ -25,6 +25,7 @@ namespace Tengine {
 
 class Sprite {
 private:
+	string  id;
 	SDL_Surface* screen;
     Texture* texture;   
     SDL_Rect rect;

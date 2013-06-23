@@ -3,7 +3,7 @@
  *
  *       Filename:  Shape.h
  *
- *    Description:  shape, 表示物体2d形状
+ *    Description:  shape, 基本物体2d形状，封装line,rect,circle,point等形状
  *
  *        Version:  1.0
  *        Created:  2012年10月29日 22时47分58秒

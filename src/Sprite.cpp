@@ -20,6 +20,8 @@
 namespace Tengine {
 
 Sprite::Sprite(SDL_Rect rect, Texture* tex) {
+	// random number
+	id = "xxx";
     this->texture = tex;
     this->rect = rect;
 }
@@ -46,14 +48,14 @@ void Sprite::draw() {
         fac_x + off_x, off_y
     };
 
-    SDL_Rect offset;
-    offset.x = off_x;
-    offset.y = off_y;
-    offset.w = texture->getSliceWidth();
-    offset.h = texture->getSliceHeight();
+    SDL_Rect dest;
+    dest.x = rect.x;
+    dest.y = rect.y;
+    dest.w = rect.w;//texture->getSliceWidth();
+    dest.h = rect.h;//texture->getSliceHeight();
 
     // 获取game surface
-    SDL_BlitSurface(texture->getSurface(), NULL, screen, &offset);
+    SDL_BlitSurface(texture->getSurface(), &rect, screen, &dest);
 
     //　使用sdl显示图片
     //SDL_blit();

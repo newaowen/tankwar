@@ -39,8 +39,10 @@ void Texture::load(string fileName) {
     const char* path = fileName.c_str();
     SDL_Surface *rawSurface = IMG_Load(path);
     if (rawSurface) {
+    	Log::i("load texture %s success", path);
     	surface = SDL_DisplayFormat(rawSurface);
     	if (surface) {
+    		Log::i("texture  %s to sdl_display format success", path);
     		SDL_FreeSurface(rawSurface);
     	}
     	//toOpenGLTexture(surface);
@@ -49,18 +51,18 @@ void Texture::load(string fileName) {
         //    SDL_FreeSurface( surface );
         //}
     } else {
-        printf("SDL could not load %s: %s\n", path, SDL_GetError());
+    	Log::e("SDL could not load %s: %s\n", path, SDL_GetError());
     }    
 }
 
 void Texture::toOpenGLTexture(SDL_Surface* surface) {
     // Check that the image's width is a power of 2
     if ((surface->w & (surface->w - 1)) != 0) {
-        printf("warning: surface width is not a power of 2\n");
+    	Log::w("warning: surface width is not a power of 2");
     }
     // Also check if the height is a power of 2
     if ((surface->h & (surface->h - 1)) != 0 ) {
-        printf("warning: surface height is not a power of 2\n");
+    	Log::w("warning: surface width is not a power of 2");
     }
 
     /*

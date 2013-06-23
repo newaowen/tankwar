@@ -20,18 +20,9 @@
 #define _TANK_
 
 #include "DisplayObject.h"
+#include "AnimateObject.h"
 
-class AnimateObject: DisplayObject {
-public:
-	float speed;
-	float direction;
-	int animateStat;
-	bool playOver;
-public:
-	void move();
-	void playAnimate();
-
-};
+using namespace Tengine;
 
 /** 
  * 子弹
@@ -65,21 +56,6 @@ public:
 	bool isDead();
 };
 
-/*
- * 地图元素
- */
-class MapElement: DisplayObject {
-
-};
-
-/*
- * 地图
- */
-class Map {
-public:
-	//HashMap<Vector2, MapElement> elements;
-
-};
 
 //collisionDetect(AnimateObject, Map);
 //collisionDetect(AnimateObject, AnimateObject);

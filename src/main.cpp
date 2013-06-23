@@ -4,18 +4,15 @@
 #include "SDL/SDL_image.h"
 
 bool createGame() {
-	cout << "[enter new game]" << endl;
+	Log::i("create game scene");
 
 	GameApp* app = GameApp::GetInstance();
-	//WindowManager& winManager = *(app->winMgr);
-	// 开始新场景
-	//System::getSingleton().setGUISheet(app->playWin);
-
 	// 加载主贴图
 	Tengine::Texture* tex = new Tengine::Texture();
 	tex->load("../resource/img/tanks.png");
 
-	SDL_Rect rect = { 0, 0, 20, 20 };
+
+	SDL_Rect rect = {50, 150, 20, 20};
 	Sprite* spr = new Sprite(rect, tex);
 	// 精灵和DisplayObject区别？
 	DisplayObject* obj = new DisplayObject(spr);
@@ -37,13 +34,14 @@ bool onExitApp(const CEGUI::EventArgs& args) {
 */
 
 int main(int argc, char *argv[]) {
-	cout << " - starting app" << endl;
-
 	GameApp* app = GameApp::GetInstance();
 	app->init("tankwar");
 
 	// 初始化
 	createGame();
+	app->gameLoop();
+	Log::i("end app");
+
 	//WindowManager& winManager = *(app->winMgr);
 
 	// gui add
@@ -74,7 +72,5 @@ int main(int argc, char *argv[]) {
 	*/
 	// 创建登陆gui
 	// app->gameloop();
-	app->gameLoop();
-	cout << " - ending app - " << endl;
 }
 

@@ -27,20 +27,20 @@
 class Log {
 
 protected:
-	//char buf[BUFSIZE];
-	FILE *file;
-	//int _log(const char* str, ...);
+	static FILE *file;
 
 public:
 	Log() {
-		file = stdout;
+
 	}
 	~Log() {}
 
-	void setOut(const char* path); 	// 设置输出,默认为标准输出
-	int i(const char* str, ...); // info
-	int w(const char* str, ...); // warn
-	int e(const char* str, ...); // error
+	static void setOut(const char* path); 	// 设置输出,默认为标准输出
+	// 支持颜色，列对齐等
+	static int i(const char* str, ...); // info
+	static int w(const char* str, ...); // warn
+	static int e(const char* str, ...); // error
+	static void _postLog();
 
 };
 
