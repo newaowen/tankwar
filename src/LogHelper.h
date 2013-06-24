@@ -8,7 +8,10 @@
 #ifndef LOGHELPER_H_
 #define LOGHELPER_H_
 
+#include <SDL/SDL.h>
+
 namespace Tengine {
+
 class LogHelper {
 public:
 	static char* rectMsg(SDL_Rect* rect);

@@ -17,7 +17,10 @@
 namespace Tengine {
 
 DisplayObject::DisplayObject() {
-
+	x = 0;
+	y = 0;
+	visible = true;
+	eventHandler = NULL;
 }
 
 void DisplayObject::draw() {
@@ -25,7 +28,9 @@ void DisplayObject::draw() {
 }
 
 void DisplayObject::handleEvent(SDL_Event event) {
-
+	if (eventHandler) {
+		eventHandler(this, event);
+	}
 }
 
 /*

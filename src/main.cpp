@@ -24,7 +24,7 @@ TankTexture* createTexture() {
 	return tex;
 }
 
-Tank* createTank(Texture* tex, Animator* anim) {
+Tank* createTank(Texture* tex, FrameAnimator* anim) {
 	// 构造坦克
 	Tank* tank = new Tank();
 	tank->texture = tex;
@@ -33,7 +33,7 @@ Tank* createTank(Texture* tex, Animator* anim) {
 	return tank;
 }
 
-Animator* createAnimator() {
+FrameAnimator* createAnimator() {
 	// 元素贴图索引数组
 	// 1型坦克
 	int tankSeqLen = 56;
@@ -48,12 +48,42 @@ Animator* createAnimator() {
 			16, 2, 16, 3, 16, 4, 16, 5, 16, 6, 16, 7, 16, 8, };
 	// 动画控制器
 	// 构造坦克使用的sprite
-	Animator* animator = new Animator();
-	animator->frameTick = 100;
+	FrameAnimator* animator = new FrameAnimator();
+	animator->frameTick = 1000;
 	animator->sliceIndexesFromArray(tankOneSeq, tankSeqLen);
 
 	return animator;
 }
+
+/**
+ * 事件处理
+ */
+void handleEvent(DisplayObject* target, SDL_Event event) {
+	Tank* tank = (Tank*)target;
+	switch (event.type) {
+	case SDL_KEYDOWN:
+		switch (event.key.keysym.sym) {
+		case SDLK_UP:
+			tank->moveUp();
+			break;
+		case SDLK_RIGHT:
+			tank->moveRight();
+			break;
+		case SDLK_DOWN:
+			tank->moveDown();
+			break;
+		case SDLK_LEFT:
+			tank->moveLeft();
+			break;
+		default:
+			break;
+		}
+		break;
+		default:
+			break;
+	}
+}
+
 
 bool createGame() {
 	Log::i("create game scene");
@@ -61,7 +91,7 @@ bool createGame() {
 
 	// 加载主贴图
 	TankTexture* tex = createTexture();
-	Animator *animtor = createAnimator();
+	FrameAnimator *animtor = createAnimator();
 
 	// 2型坦克
 	//obj->setDrawFunc(SDL_Surface2Texture);
@@ -78,6 +108,7 @@ bool createGame() {
 		tank->y = 20;
 		// 增加1型坦克
 		app->addDisplayObject(tank);
+		tank->eventHandler = handleEvent;
 	}
 
 	return true;

@@ -24,6 +24,7 @@
 
 namespace Tengine {
 
+enum Direction {UP, RIGHT, DOWN, LEFT};
 /**
  * 精灵基类
  */
@@ -35,6 +36,8 @@ public:
 	Texture* texture;
 	// 精灵大小
 	int w, h;
+	// 朝向
+	Direction direction;
 	// SDL_Rect textureRect;
 
 public:

@@ -10,7 +10,9 @@
 
 namespace Tengine {
 
-typedef void (*EventHandler)();
+class DisplayObject;
+
+typedef void (*EventHandler)(DisplayObject*, SDL_Event event);
 
 }
 

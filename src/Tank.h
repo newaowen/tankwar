@@ -20,7 +20,7 @@
 #define _TANK_
 
 #include "Sprite.h"
-#include "Animator.h"
+#include "FrameAnimator.h"
 #include "EventHandler.h"
 
 using namespace Tengine;
@@ -47,23 +47,40 @@ public:
  */
 class Tank: public Sprite {
 public:
-	Weapon weapon;
-	int level;
-	float health;
-	float attack;
-	float armor;
+	Weapon 	weapon;
+	int 	level;
+	float 	health;
+	float 	attack;
+	float 	armor;
 
-	Animator* animator;
+	// 朝向，速度
+	int 	speed;
+
+	// 缓存位置
+	int  savedX, savedY;
+
+	// TODO 添加　行动控制器
+
+	FrameAnimator* animator;
 
 public:
-	void move();
+	void moveLeft();
+	void moveUp();
+	void moveRight();
+	void moveDown();
 
-	void turn();
+	void moveForward();
+	void turn(Direction direction);
+
+	// 位置缓存处理
+	void savePos();
+	void restorePos();
+
 	void draw();
 	bool isDead();
 
 	// 事件处理接口
-	virtual void handleEvent(SDL_Event evt);
+	// virtual void handleEvent(SDL_Event evt);
 
 };
 
