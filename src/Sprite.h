@@ -20,23 +20,38 @@
 #define _SPRITE_
 
 #include "Texture.h"
+#include "DisplayObject.h"
 
 namespace Tengine {
 
-class Sprite {
-private:
-	string  id;
-	SDL_Surface* screen;
-    Texture* texture;   
-    SDL_Rect rect;
+/**
+ * 精灵基类
+ */
+class Sprite: public DisplayObject {
 public:
-    Sprite(SDL_Rect rect, Texture* tex);
+	string id;
+	// 屏幕引用
+	SDL_Surface* screen;
+	Texture* texture;
 
-    void setScreen(SDL_Surface* screen) { this->screen = screen; }
-    void setTexture(Texture* tex);
-    void draw();
+	// 精灵大小
+	int w, h;
+	// SDL_Rect textureRect;
+
+public:
+	Sprite() {
+	}
+
+	void build(Texture* tex, SDL_Rect rect);
+
+	inline void attachScreen(SDL_Surface* screen) {
+		this->screen = screen;
+	}
+
+	void draw();
+	void blitTexture(Texture* tex, SDL_Rect* rect);
 };
 
-} 
+}
 
 #endif

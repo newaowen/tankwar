@@ -19,15 +19,15 @@
 #ifndef _TANK_
 #define _TANK_
 
-#include "DisplayObject.h"
-#include "AnimateObject.h"
+#include "Sprite.h"
+#include "Animator.h"
 
 using namespace Tengine;
 
 /** 
  * 子弹
  */
-class Bullet: AnimateObject {
+class Bullet: public Sprite {
 
 };
 
@@ -44,7 +44,7 @@ public:
 /*
  * 坦克
  */
-class Tank: AnimateObject {
+class Tank: public Sprite {
 public:
 	Weapon weapon;
 	int level;
@@ -52,7 +52,13 @@ public:
 	float attack;
 	float armor;
 
+	Animator* animator;
+
 public:
+	void move();
+
+	void turn();
+	void draw();
 	bool isDead();
 };
 

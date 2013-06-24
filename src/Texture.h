@@ -31,44 +31,43 @@ using namespace std;
 
 namespace Tengine {
 
+struct TextureSliceIndex  {
+        int i, j;
+};
+
 class Texture {
 public:
     SDL_Surface* surface;
     GLuint id;
-    int width;
-    int height;
+    // 纹理源矩形
+    SDL_Rect  rect;
 public:
     virtual ~Texture();
     virtual void load(string fileName);
     virtual void toOpenGLTexture(SDL_Surface* surface);
-    virtual Texture* slice(int x, int y, int width, int height);
 
     virtual GLuint getId();
     GLuint setId();
 
-    inline SDL_Surface* getSurface() {return surface;} ;
-    virtual int getX() { return 0;}
-    virtual int getY() { return 0;}
-    virtual int getWidth() { return width;}
-    virtual int getHeight() { return height;}
-    virtual int getSliceWidth() { return width;}
-    virtual int getSliceHeight() { return height;}
-};
+    inline SDL_Surface* getSurface() {return surface;};
 
+    void buildFrom(Texture* tex, int x, int y, int w, int h);
 
-class TextureSlice : public Texture {
-private:
-    Texture* parent;
-    int x, y;
-public:
-    TextureSlice(Texture* parent, int x, int y, int width, int height);
-    ~TextureSlice() {}
-    GLuint getId();
+    int getX() { return rect.x;}
+    int getY() { return rect.y;}
+    int getWidth() { return rect.w;}
+    int getHeight() { return rect.h;}
+    //virtual int getSliceWidth() { return width;}
+    //virtual int getSliceHeight() { return height;}
 
-    int getX() {return x;}
-    int getY() {return y;}
-    int getWidth() { return parent->getWidth();}
-    int getHeight() { return parent->getHeight();}
+    // 生成子块纹理
+    Texture* genSlice(int x, int y, int width, int height);
+    Texture* genSlice(SDL_Rect rect);
+    Texture* genSlice(TextureSliceIndex sliceIndex);
+
+    // 根据索引计算纹理矩形(子类具体实现）
+    virtual SDL_Rect computeSliceRect(TextureSliceIndex sliceIndex);
+
 };
 
 } 

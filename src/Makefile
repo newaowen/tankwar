@@ -2,15 +2,16 @@
 CC=g++
 #SHELL:=/bin/bash
 INCLUDE_DIR=-Iinclude 
-LIBS=-lSDL -lSDLmain -lSDL_image -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
+#LIBS=-lSDL -lSDLmain -lSDL_image -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer
+LIBS=-lSDL -lSDLmain -lSDL_image -lGL -lGLU
 CFLAGS=-Wall -O3
 
 BUILD_DIR=../build/
 BIN_DIR=../bin/
 
-#Ä¿±ê³ÌÐòÃû
+#Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 TARGET=tankwar
-#Î±¶ÔÏó
+#Î±ï¿½ï¿½ï¿½ï¿½
 INSTALL=install
 
 SOURCES=$(wildcard *.cpp)
@@ -26,6 +27,6 @@ $(TARGET) : $(OBJS)
 	$(CC) -c $(CFLAGS) $< -o $@ -I/usr/local/include/CEGUI
 
 $(INSTALL) : 
-	mv *.o $(BUILD_DIR) && mv $(TARGET) $(BIN_DIR)
+	cp *.o $(BUILD_DIR) && cp $(TARGET) $(BIN_DIR)
 
 #gcc test.cpp -I/usr/local/include/CEGUI/ -lSDL -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer

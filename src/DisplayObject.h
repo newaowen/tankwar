@@ -20,31 +20,30 @@
 #define _DISPLAY_OBJECT_
 
 #include <SDL/SDL.h>
-#include "Sprite.h"
-#include "Texture.h"
 
 namespace Tengine {
 
 typedef void (*DrawFunc)();
 
+/**
+ * 可渲染物体封装
+ */
 class DisplayObject {
 public: 
-    float x, y;
+    // 位置
+    int x, y;
+    // 是否可见
     bool  visible;
-    Sprite*  sprite;
-    DrawFunc drawFunc;
+    //DrawFunc drawFunc;
+
 public:
-    DisplayObject(Sprite* sprite);
+    DisplayObject();
 
-    inline void attachScreen(SDL_Surface* screen) {
-    	sprite->setScreen(screen);
-    }
-
-    void setDrawFunc(DrawFunc);
-
-    virtual void render();
+    // 绘制接口
+    virtual void draw();
 };
 
 }
 
 #endif
+

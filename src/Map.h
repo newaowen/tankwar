@@ -17,9 +17,7 @@ protected:
 	//HashMap<Vector2, MapElement> elements;
 
 public:
-
 	Map();
-	virtual ~Map();
 };
 
 /*

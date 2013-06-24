@@ -41,7 +41,6 @@ bool GameApp::init(string title, int width, int height) {
 void GameApp::initSDL() {
 	Log::i("init SDL");
 
-
 	atexit(SDL_Quit);
 	// old: SDL_INIT_VIDEO
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -99,8 +98,6 @@ void GameApp::initSDL() {
  * 添加显示物体
  */
 void GameApp::addDisplayObject(DisplayObject* obj) {
-	// 设置屏幕surface
-	obj->attachScreen(screen);
 	this->displayObjects.push_back(obj);
 }
 
@@ -279,7 +276,7 @@ void GameApp::render() {
 	// draw scene
 	int i = 0;
 	for (i = 0; i < displayObjects.size(); i++) {
-		displayObjects[i]->render();
+		displayObjects[i]->draw();
 	}
 
 	//[opengl]Updates the screen:

@@ -16,18 +16,17 @@
 
 namespace Tengine {
 
-DisplayObject::DisplayObject(Sprite* sprite) {
-    this->sprite = sprite;
+DisplayObject::DisplayObject() {
+
 }
 
-void DisplayObject::render() {
-    if (sprite) {
-        sprite->draw();
-    }
-}
+void DisplayObject::draw() {
 
+}
+/*
 void DisplayObject::setDrawFunc(DrawFunc func) {
     drawFunc = func;
 }
+*/
 
 }

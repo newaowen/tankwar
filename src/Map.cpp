@@ -7,12 +7,10 @@
 
 #include "Map.h"
 
+namespace Tengine {
 Map::Map() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Map::~Map() {
-	// TODO Auto-generated destructor stub
 }
-
