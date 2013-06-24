@@ -57,13 +57,16 @@ public:
     //void set_CEGUI_paths();
 
     // sdl and cegui inter operation
+
     void onMouseDown(Uint8 button);
     void onMouseUp(Uint8 button);
+
     //void inject_input (bool & must_quit);
     //void inject_time_pulse(double& last_time_pulse);
     void gameLoop();
     void eventLoop();
-    void eventHandler(SDL_Event event);
+    void handleEvent(SDL_Event event);
+    void dispatchEvent(DisplayObject* obj, SDL_Event evt);
 
     // 实际的渲染函数
     void render();

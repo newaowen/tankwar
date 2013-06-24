@@ -33,17 +33,19 @@ public:
 	// 屏幕引用
 	SDL_Surface* screen;
 	Texture* texture;
-
 	// 精灵大小
 	int w, h;
 	// SDL_Rect textureRect;
 
 public:
-	Sprite() {
-	}
+	Sprite() {}
 
+	// 初始化参数
 	void build(Texture* tex, SDL_Rect rect);
 
+	// pending
+	// 设置以贴图尺寸为准
+	void useTextureSize();
 	inline void attachScreen(SDL_Surface* screen) {
 		this->screen = screen;
 	}

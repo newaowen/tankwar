@@ -41,7 +41,6 @@ public:
 	static int w(const char* str, ...); // warn
 	static int e(const char* str, ...); // error
 	static void _postLog();
-
 };
 
 #endif

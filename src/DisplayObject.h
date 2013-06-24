@@ -20,6 +20,7 @@
 #define _DISPLAY_OBJECT_
 
 #include <SDL/SDL.h>
+#include "EventHandler.h"
 
 namespace Tengine {
 
@@ -36,9 +37,15 @@ public:
     bool  visible;
     //DrawFunc drawFunc;
 
+    // 可由外部动态修改事件处理器
+    EventHandler eventHandler;
+
+    // bound box 用于碰撞检测
+
 public:
     DisplayObject();
-
+    // 事件处理接口
+    virtual void handleEvent(SDL_Event evt);
     // 绘制接口
     virtual void draw();
 };

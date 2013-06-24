@@ -21,6 +21,7 @@
 
 #include "Sprite.h"
 #include "Animator.h"
+#include "EventHandler.h"
 
 using namespace Tengine;
 
@@ -60,8 +61,11 @@ public:
 	void turn();
 	void draw();
 	bool isDead();
-};
 
+	// 事件处理接口
+	virtual void handleEvent(SDL_Event evt);
+
+};
 
 //collisionDetect(AnimateObject, Map);
 //collisionDetect(AnimateObject, AnimateObject);

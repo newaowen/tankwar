@@ -25,7 +25,7 @@ namespace Tengine {
 void Sprite::build(Texture* tex, SDL_Rect rect) {
 	// random number
 	id = "xxx";
-	this->texture = tex;
+	texture = tex;
 	x = rect.x;
 	y = rect.y;
 	w = rect.w;
@@ -33,7 +33,22 @@ void Sprite::build(Texture* tex, SDL_Rect rect) {
 }
 
 void Sprite::blitTexture(Texture* tex, SDL_Rect* rect) {
+	SDL_Rect src = texture->rect;
+	SDL_Rect dest = *rect;
+	Log::i("blit surface: from (%d, %d, %d, %d) to (%d, %d, %d, %d)", src.x, src.y, src.w, src.h,
+			dest.x, dest.y, dest.w, dest.h);
 	SDL_BlitSurface(texture->getSurface(), &(texture->rect), screen, rect);
+}
+
+/**
+ * pending
+ * 使用贴图大小表示精灵大小
+ */
+void Sprite::useTextureSize() {
+	if (texture) {
+		w = texture->rect.w;
+		h = texture->rect.h;
+	}
 }
 
 void Sprite::draw() {

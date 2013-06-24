@@ -23,6 +23,11 @@ DisplayObject::DisplayObject() {
 void DisplayObject::draw() {
 
 }
+
+void DisplayObject::handleEvent(SDL_Event event) {
+
+}
+
 /*
 void DisplayObject::setDrawFunc(DrawFunc func) {
     drawFunc = func;

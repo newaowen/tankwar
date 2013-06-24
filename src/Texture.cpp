@@ -139,7 +139,7 @@ SDL_Rect Texture::computeSliceRect(TextureSliceIndex sliceIndex) {
  * 构建纹理
  */
 void Texture::buildFrom(Texture* tex, int x, int y, int w, int h) {
-	this->surface = tex->surface;
+	surface = tex->surface;
 	rect.x = x;
 	rect.y = y;
 	rect.w = w;

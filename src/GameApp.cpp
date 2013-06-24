@@ -238,15 +238,24 @@ void GameApp::eventLoop() {
 	SDL_Event event;
 	// sdl事件循环
 	while (SDL_PollEvent(&event)) { //循环poll事件，直到事件队列为空
-		eventHandler(event);
+		handleEvent(event);
 	}
 }
 
-void GameApp::eventHandler(SDL_Event event) {
+void GameApp::handleEvent(SDL_Event event) {
 	if (event.type == SDL_QUIT) { //退出事件
 		status = EXIT;
 		Log::i("catch exit event");
 	}
+
+	// 调用displayobject的event handler
+	for (int i = 0; i < displayObjects.size(); i++) {
+		dispatchEvent(displayObjects[i], event);
+	}
+}
+
+void GameApp::dispatchEvent(DisplayObject* obj, SDL_Event evt) {
+	obj->handleEvent(evt);
 }
 
 void GameApp::gameLoop() {

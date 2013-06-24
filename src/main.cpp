@@ -1,16 +1,25 @@
+/*
+ * 坦克大战入口
+ *
+ *  by zhanqu
+ *  date 2013-6-22
+ */
 #include "GameApp.h"
 #include "TankTexture.h"
 #include "Tank.h"
-#include "MainEventHandler.h"
+#include "EventHandler.h"
 
 #include "SDL/SDL_image.h"
+
+#define SLICE_WIDTH  32
+#define SLICE_HEIGHT  32
 
 TankTexture* createTexture() {
 	TankTexture* tex = new TankTexture();
 	tex->startX = 32;
 	tex->startY = 32;
-	tex->sliceWidth = 32;
-	tex->sliceHeight = 32;
+	tex->sliceWidth = SLICE_WIDTH;
+	tex->sliceHeight = SLICE_HEIGHT;
 	tex->load("../resource/img/tanks.png");
 	return tex;
 }
@@ -27,7 +36,7 @@ Tank* createTank(Texture* tex, Animator* anim) {
 Animator* createAnimator() {
 	// 元素贴图索引数组
 	// 1型坦克
-	//int tankSeqLen = 56;
+	int tankSeqLen = 56;
 	int tankOneSeq[] = {
 	//上
 			15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 0,
@@ -37,21 +46,13 @@ Animator* createAnimator() {
 			15, 1, 16, 1, 17, 1, 18, 1, 19, 1, 21, 1, 21, 1,
 			// 左
 			16, 2, 16, 3, 16, 4, 16, 5, 16, 6, 16, 7, 16, 8, };
-
-	//Sprite* spr = new Sprite();
-	//spr->texture = tex;
 	// 动画控制器
 	// 构造坦克使用的sprite
 	Animator* animator = new Animator();
-	animator->frameTick = 1200;
-	animator->sliceIndexesFromArray(tankOneSeq, 56);
+	animator->frameTick = 100;
+	animator->sliceIndexesFromArray(tankOneSeq, tankSeqLen);
 
 	return animator;
-}
-
-EventHandler* createEventHandler() {
-	MainEventHandler* handler = new MainEventHandler();
-	return handler;
 }
 
 bool createGame() {
@@ -60,18 +61,19 @@ bool createGame() {
 
 	// 加载主贴图
 	TankTexture* tex = createTexture();
-
 	Animator *animtor = createAnimator();
-	// 2型坦克
 
+	// 2型坦克
 	//obj->setDrawFunc(SDL_Surface2Texture);
 	//Tank* tank = new Tank();
 	//tank->addEventListener
 	//app->addDisplayObject(obj);
 
 	// 测试创建
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 2; i++) {
 		Tank* tank = createTank(tex, animtor);
+		tank->w = SLICE_WIDTH;
+		tank->h = SLICE_HEIGHT;
 		tank->x = 10 + i * 40;
 		tank->y = 20;
 		// 增加1型坦克

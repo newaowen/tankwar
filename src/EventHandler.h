@@ -10,11 +10,7 @@
 
 namespace Tengine {
 
-class EventHandler {
-public:
-	EventHandler();
-	virtual ~EventHandler();
-};
+typedef void (*EventHandler)();
 
 }
 

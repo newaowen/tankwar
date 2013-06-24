@@ -10,7 +10,7 @@
 namespace Tengine {
 
 Animator::Animator() {
-	frameTick = 200;
+	frameTick = 1;
 	speedCount = 0;
 	curSliceIndex = 0;
 	playOver = true;
@@ -54,7 +54,6 @@ void Animator::sliceIndexesFromArray(int* arr, int size) {
 	sliceIndexes = new TextureSliceIndex[sliceNum];
 
 	Log::i("new TextureSliceIndex %d", sliceNum);
-
 	for (int index = 0; index < sliceNum; index += 1) {
 		sliceIndexes[index].i = arr[index * 2];
 		sliceIndexes[index].j = arr[index * 2 + 1];
