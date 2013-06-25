@@ -13,6 +13,7 @@
 #include <GL/glu.h>
 
 #include "DisplayObject.h"
+#include "Collision.h"
 #include "Log.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ using namespace Tengine;
 enum GameStatus {START, RUN, PAUSE, EXIT};
 
 class GameApp {
-private:
+public:
 	// 运行状态
 	enum GameStatus status;
 

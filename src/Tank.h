@@ -22,6 +22,7 @@
 #include "Sprite.h"
 #include "FrameAnimator.h"
 #include "EventHandler.h"
+#include "Collision.h"
 
 using namespace Tengine;
 
@@ -56,9 +57,6 @@ public:
 	// 朝向，速度
 	int 	speed;
 
-	// 缓存位置
-	int  savedX, savedY;
-
 	// TODO 添加　行动控制器
 
 	FrameAnimator* animator;
@@ -76,12 +74,14 @@ public:
 	void savePos();
 	void restorePos();
 
-	void draw();
+	virtual SDL_Rect getBoundRect();
+	virtual void update();
+	virtual void draw();
+
 	bool isDead();
 
 	// 事件处理接口
 	// virtual void handleEvent(SDL_Event evt);
-
 };
 
 //collisionDetect(AnimateObject, Map);

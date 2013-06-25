@@ -28,5 +28,8 @@ $(TARGET) : $(OBJS)
 
 $(INSTALL) : 
 	cp *.o $(BUILD_DIR) && cp $(TARGET) $(BIN_DIR)
+	
+clean : 
+	rm *.o 
 
 #gcc test.cpp -I/usr/local/include/CEGUI/ -lSDL -lGL -lGLU -lCEGUIBase -lCEGUIOpenGLRenderer

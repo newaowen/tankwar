@@ -23,6 +23,19 @@ DisplayObject::DisplayObject() {
 	eventHandler = NULL;
 }
 
+SDL_Rect DisplayObject::getBoundRect() {
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = 0;
+	rect.h = 0;
+	return rect;
+}
+
+void DisplayObject::update() {
+
+}
+
 void DisplayObject::draw() {
 
 }
@@ -31,6 +44,17 @@ void DisplayObject::handleEvent(SDL_Event event) {
 	if (eventHandler) {
 		eventHandler(this, event);
 	}
+}
+
+
+void DisplayObject::savePos() {
+	savedX = x;
+	savedY = y;
+}
+
+void DisplayObject::restorePos() {
+	x = savedX;
+	y = savedY;
 }
 
 /*

@@ -30,24 +30,35 @@ typedef void (*DrawFunc)();
  * 可渲染物体封装
  */
 class DisplayObject {
-public: 
-    // 位置
-    int x, y;
-    // 是否可见
-    bool  visible;
-    //DrawFunc drawFunc;
+public:
+	// 位置
+	int x, y;
 
-    // 可由外部动态修改事件处理器
-    EventHandler eventHandler;
+	// 缓存位置
+	int  savedX, savedY;
 
-    // bound box 用于碰撞检测
+	// 是否可见
+	bool visible;
+	//DrawFunc drawFunc;
+
+	// 可由外部动态修改事件处理器
+	EventHandler eventHandler;
+	// bound box 用于碰撞检测
 
 public:
-    DisplayObject();
-    // 事件处理接口
-    virtual void handleEvent(SDL_Event evt);
-    // 绘制接口
-    virtual void draw();
+	DisplayObject();
+	// 事件处理接口
+	virtual void handleEvent(SDL_Event evt);
+
+	// 位置缓存处理
+	virtual void savePos();
+	virtual void restorePos();
+
+	virtual SDL_Rect getBoundRect();
+	// 更新接口
+	virtual void update();
+	// 绘制接口
+	virtual void draw();
 };
 
 }

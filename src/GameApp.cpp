@@ -51,7 +51,7 @@ void GameApp::initSDL() {
 	// for opengl
 	// screen = SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
 	// for sdl
-	screen = SDL_SetVideoMode(this->width, this->height, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(this->width, this->height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	if (screen == 0) {
 		Log::e("unable to set OpenGL video mode", SDL_GetError());
 		SDL_Quit();
@@ -61,10 +61,10 @@ void GameApp::initSDL() {
 	SDL_WM_SetCaption(title.c_str(), NULL);
 
 	/* for cegui
-	SDL_ShowCursor();
-	SDL_EnableUNICODE(1);
-	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-	*/
+	 SDL_ShowCursor();
+	 SDL_EnableUNICODE(1);
+	 SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+	 */
 }
 
 /*
@@ -131,8 +131,7 @@ void GameApp::onMouseDown(Uint8 button) {
 		break;
 
 	default:
-		cout << "handle_mouse_down ignored '" << static_cast<int>(button) << "'"
-				<< endl;
+		cout << "handle_mouse_down ignored '" << static_cast<int>(button) << "'" << endl;
 		break;
 	}
 }
@@ -158,8 +157,7 @@ void GameApp::onMouseUp(Uint8 button) {
 		break;
 
 	default:
-		cout << "handle_mouse_up ignored '" << static_cast<int>(button) << "'"
-				<< endl;
+		cout << "handle_mouse_up ignored '" << static_cast<int>(button) << "'" << endl;
 		break;
 	}
 }
@@ -272,7 +270,7 @@ void GameApp::gameLoop() {
 		int ts = SDL_GetTicks();
 		int leftTs = frameDuration - (ts - startTs);
 		if (leftTs > 0) {
-			SDL_Delay (leftTs);
+			SDL_Delay(leftTs);
 		}
 	}
 
@@ -283,7 +281,25 @@ void GameApp::render() {
 	//Clears the colour buffer:
 	//glClear(GL_COLOR_BUFFER_BIT);
 	// draw scene
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = 0;
+	rect.w = width;
+	rect.h = height;
+
 	int i = 0;
+	for (i = 0; i < displayObjects.size(); i++) {
+		displayObjects[i]->savePos();
+		// 更新位置，速度等
+		displayObjects[i]->update();
+		SDL_Rect bound = displayObjects[i]->getBoundRect();
+		bool flag = Collision::testOutBorder(bound, rect);
+		if (flag) {
+			displayObjects[i]->restorePos();
+		}
+	}
+
+	// 统一绘制
 	for (i = 0; i < displayObjects.size(); i++) {
 		displayObjects[i]->draw();
 	}

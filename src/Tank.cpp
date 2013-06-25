@@ -44,15 +44,32 @@ void Tank::moveForward() {
 	}
 }
 
-
 /**
  * 转向
  */
 void Tank::turn(Direction direction) {
-	this.direction = direction;
+	this->direction = direction;
 }
 
+SDL_Rect Tank::getBoundRect() {
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = w;
+	rect.h = h;
 
+	return rect;
+}
+
+void Tank::update() {
+	// 更新坦克的位置，朝向，速度等计算
+	if (speed > 0) {
+		moveForward();
+	}
+
+	// 动画控制器计算当前纹理片段
+	animator->update();
+}
 
 void Tank::draw() {
 	SDL_Rect rect;
@@ -61,38 +78,10 @@ void Tank::draw() {
 	rect.w = w;
 	rect.h = h;
 
-	savePos();
-
-	// 坦克的位置，朝向，速度等计算
-
-	// 碰撞检测
-
-
-	// 如果发生碰撞，则还原位置
-	if (true) {
-		restorePos();
-	}
-
-	// 动画控制器计算当前纹理片段
-	animator->update();
 	TextureSliceIndex sliceIndex = animator->getCurSliceIndex();
 	Texture* tex = texture->genSlice(sliceIndex);
-
 	//Log::i("blit surface: from (%d, %d, %d, %d)", tex->rect.x, tex->rect.y, tex->rect.w, tex->rect.h);
 	// 显示坦克
 	blitTexture(tex, &rect);
 }
 
-bool Tank::collisionDetect() {
-	return false;
-}
-
-void Tank::savePos() {
-	savedX = x;
-	savedY = y;
-}
-
-void Tank::restorePos() {
-	x = savedX;
-	y = savedY;
-}
