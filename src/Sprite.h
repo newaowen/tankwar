@@ -19,12 +19,13 @@
 #ifndef _SPRITE_
 #define _SPRITE_
 
+#include "Constant.h"
 #include "Texture.h"
 #include "DisplayObject.h"
 
 namespace Tengine {
 
-enum Direction {UP, RIGHT, DOWN, LEFT};
+
 /**
  * 精灵基类
  */
@@ -38,6 +39,8 @@ public:
 	int w, h;
 	// 朝向
 	Direction direction;
+	// 速度
+	float speed;
 	// SDL_Rect textureRect;
 
 public:

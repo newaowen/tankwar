@@ -12,7 +12,7 @@ namespace Tengine {
 FrameAnimator::FrameAnimator() {
 	frameTick = 1;
 	speedCount = 0;
-	curSliceIndex = 0;
+	curFrameIndex = 0;
 	playOver = true;
 }
 
@@ -34,30 +34,33 @@ void FrameAnimator::update() {
 
 void FrameAnimator::nextFrame() {
 	// 更新帧
-	curSliceIndex++;
-	if (curSliceIndex >= sliceNum) {
-		curSliceIndex = 0;
+	curFrameIndex++;
+	if (curFrameIndex >= frameNum) {
+		curFrameIndex = 0;
 	}
 }
 
 TextureSliceIndex FrameAnimator::getCurSliceIndex() {
 	TextureSliceIndex sliceIndex;
-	sliceIndex = sliceIndexes[curSliceIndex];
+	Log::i("get cur slice index: %d", curFrameIndex);
+	sliceIndex = sliceIndexes[curFrameIndex];
 	return sliceIndex;
 }
 
 /**
  * 从数组中拷贝索引
  */
-void FrameAnimator::sliceIndexesFromArray(int* arr, int size) {
-	sliceNum = size / 2;
-	sliceIndexes = new TextureSliceIndex[sliceNum];
+TextureSliceIndex* FrameAnimator::sliceIndexesFromArray(int* arr, int size) {
+	frameNum = size / 2;
+	TextureSliceIndex* indexes = new TextureSliceIndex[frameNum];
 
-	Log::i("new TextureSliceIndex %d", sliceNum);
-	for (int index = 0; index < sliceNum; index += 1) {
-		sliceIndexes[index].i = arr[index * 2];
-		sliceIndexes[index].j = arr[index * 2 + 1];
+	Log::i("new TextureSliceIndex %d", frameNum);
+	for (int index = 0; index < frameNum; index += 1) {
+		indexes[index].i = arr[index * 2];
+		indexes[index].j = arr[index * 2 + 1];
 	}
+
+	return indexes;
 }
 
 }

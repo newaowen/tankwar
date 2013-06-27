@@ -32,12 +32,11 @@ void Sprite::build(Texture* tex, SDL_Rect rect) {
 	h = rect.h;
 }
 
-void Sprite::blitTexture(Texture* tex, SDL_Rect* rect) {
-	SDL_Rect src = tex->rect;
-	SDL_Rect dest = *rect;
-	//Log::i("blit surface: from (%d, %d, %d, %d) to (%d, %d, %d, %d)", src.x, src.y, src.w, src.h,
-	//		dest.x, dest.y, dest.w, dest.h);
-	SDL_BlitSurface(tex->getSurface(), &(tex->rect), screen, rect);
+void Sprite::blitTexture(Texture* tex, SDL_Rect* dest) {
+	//Log::i("blit surface: from (%d, %d, %d, %d) to (%d, %d, %d, %d)",
+	//		tex->rect.x, tex->rect.y, tex->rect.w, tex->rect.h,
+	//			dest->x, dest->y, dest->w, dest->h);
+	SDL_BlitSurface(tex->getSurface(), &(tex->rect), screen, dest);
 }
 
 /**

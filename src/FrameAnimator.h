@@ -17,18 +17,19 @@ namespace Tengine {
  */
 class FrameAnimator {
 public:
-	int 	frameTick;
-	int 	speedCount;
-	int 	animateStat; // 动画播放状态 ?
-	bool 	playOver;
+	int frameTick;
+	int speedCount;
+	int animateStat; // 动画播放状态 ?
+	bool playOver;
 
 	// 贴图序列数组
 	// 处理块大小相同的子纹理
 	TextureSliceIndex* sliceIndexes;
-	// 动画贴图个数
-	int sliceNum;
-	// 当前贴图索引
-	int curSliceIndex;
+
+	// 动画序列的贴图总数
+	int frameNum;
+	// 当前帧索引
+	int curFrameIndex;
 
 public:
 	FrameAnimator();
@@ -37,9 +38,10 @@ public:
 	// 暂停动画
 	void pause();
 
-	void update();
-	void nextFrame();
-	void sliceIndexesFromArray(int* arr, int size);
+	// 更新　frame
+	virtual void update();
+	virtual void nextFrame();
+	TextureSliceIndex* sliceIndexesFromArray(int* arr, int size);
 	TextureSliceIndex getCurSliceIndex();
 };
 

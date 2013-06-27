@@ -20,18 +20,14 @@
 #define _TANK_
 
 #include "Sprite.h"
-#include "FrameAnimator.h"
+#include "StateFrameAnimator.h"
 #include "EventHandler.h"
 #include "Collision.h"
+#include "Bullet.h"
 
 using namespace Tengine;
 
-/** 
- * 子弹
- */
-class Bullet: public Sprite {
 
-};
 
 /*
  * 武器
@@ -48,37 +44,38 @@ public:
  */
 class Tank: public Sprite {
 public:
-	Weapon 	weapon;
-	int 	level;
-	float 	health;
-	float 	attack;
-	float 	armor;
+	Weapon weapon; // 当前武器
 
-	// 朝向，速度
-	int 	speed;
+	int level; // 坦克级别
+	float health; // 血量
+	float attack; // 攻击
+	float armor; // 防御
 
-	// TODO 添加　行动控制器
+	ActionStatus actionStatus;
 
-	FrameAnimator* animator;
+	// TODO 添加　行动控制器(与动画控制器区别)
+
+	// 四个方向上的动画控制器
+	StateFrameAnimator* animator;
 
 public:
-	void moveLeft();
-	void moveUp();
-	void moveRight();
-	void moveDown();
-
+	// 朝某方向移动
+	void move(Direction direction);
+	// 沿着原方向向前移动
 	void moveForward();
+	// 停止移动
+	void stopMove();
+	// 朝某方向转动
 	void turn(Direction direction);
-
-	// 位置缓存处理
-	void savePos();
-	void restorePos();
 
 	virtual SDL_Rect getBoundRect();
 	virtual void update();
 	virtual void draw();
 
 	bool isDead();
+
+	// 发射子弹
+	void fireBullet(Bullet* b);
 
 	// 事件处理接口
 	// virtual void handleEvent(SDL_Event evt);

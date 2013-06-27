@@ -278,8 +278,11 @@ void GameApp::gameLoop() {
 }
 
 void GameApp::render() {
+	// clear
+	SDL_FillRect(screen, NULL, 0x000000);
 	//Clears the colour buffer:
 	//glClear(GL_COLOR_BUFFER_BIT);
+
 	// draw scene
 	SDL_Rect rect;
 	rect.x = 0;

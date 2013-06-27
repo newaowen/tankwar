@@ -32,10 +32,9 @@ typedef void (*DrawFunc)();
 class DisplayObject {
 public:
 	// 位置
-	int x, y;
-
+	float x, y;
 	// 缓存位置
-	int  savedX, savedY;
+	float  savedX, savedY;
 
 	// 是否可见
 	bool visible;
@@ -43,7 +42,6 @@ public:
 
 	// 可由外部动态修改事件处理器
 	EventHandler eventHandler;
-	// bound box 用于碰撞检测
 
 public:
 	DisplayObject();
@@ -54,6 +52,7 @@ public:
 	virtual void savePos();
 	virtual void restorePos();
 
+	// bound box 用于碰撞检测
 	virtual SDL_Rect getBoundRect();
 	// 更新接口
 	virtual void update();

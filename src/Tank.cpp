@@ -7,25 +7,16 @@
 
 #include "Tank.h"
 
-// 转向移动
-void Tank::moveLeft() {
-	turn(LEFT);
+// 朝某方向移动
+void Tank::move(Direction direction) {
+	actionStatus = ACTION_MOVE;
+	turn(direction);
 	moveForward();
 }
 
-void Tank::moveUp() {
-	turn(UP);
-	moveForward();
-}
-
-void Tank::moveRight() {
-	turn(RIGHT);
-	moveForward();
-}
-
-void Tank::moveDown() {
-	turn(DOWN);
-	moveForward();
+// 朝某方向移动
+void Tank::stopMove() {
+	actionStatus = ACTION_STOP;
 }
 
 /**
@@ -42,6 +33,7 @@ void Tank::moveForward() {
 	} else if (direction == LEFT) {
 		x -= speed;
 	}
+	//Log::i("tank x[%f] y[%f] speed[%f]", x, y, speed);
 }
 
 /**
@@ -49,6 +41,7 @@ void Tank::moveForward() {
  */
 void Tank::turn(Direction direction) {
 	this->direction = direction;
+	this->animator->setState(direction);
 }
 
 SDL_Rect Tank::getBoundRect() {
@@ -63,12 +56,11 @@ SDL_Rect Tank::getBoundRect() {
 
 void Tank::update() {
 	// 更新坦克的位置，朝向，速度等计算
-	if (speed > 0) {
+	if (actionStatus == ACTION_MOVE) {
 		moveForward();
+		// 动画控制器计算当前纹理片段
+		animator->update();
 	}
-
-	// 动画控制器计算当前纹理片段
-	animator->update();
 }
 
 void Tank::draw() {
@@ -80,8 +72,21 @@ void Tank::draw() {
 
 	TextureSliceIndex sliceIndex = animator->getCurSliceIndex();
 	Texture* tex = texture->genSlice(sliceIndex);
-	//Log::i("blit surface: from (%d, %d, %d, %d)", tex->rect.x, tex->rect.y, tex->rect.w, tex->rect.h);
+	//Log::i("blit surface: from (%d, %d, %d, %d) to (%f, %f, %d, %d)", tex->rect.x, tex->rect.y, tex->rect.w, tex->rect.h,
+	//		x, y, w, h);
 	// 显示坦克
 	blitTexture(tex, &rect);
+}
+
+void Tank::fireBullet(Bullet* b) {
+	b->tank = this;
+	b->x = x;
+	b->y = y;
+	b->w = w;
+	b->h = h;
+	b->speed = 0.3;
+
+	Log::i("fire bullet at (%f, %f, %d, %d)", x, y, w, h);
+	b->move(this->direction);
 }
 

@@ -7,12 +7,15 @@
 #include "GameApp.h"
 #include "TankTexture.h"
 #include "Tank.h"
-#include "EventHandler.h"
 
 #include "SDL/SDL_image.h"
 
 #define SLICE_WIDTH  32
 #define SLICE_HEIGHT  32
+#define TANK_SPEED  0.2
+
+// global
+TankTexture* tankTexture;
 
 TankTexture* createTexture() {
 	TankTexture* tex = new TankTexture();
@@ -24,21 +27,22 @@ TankTexture* createTexture() {
 	return tex;
 }
 
-Tank* createTank(Texture* tex, FrameAnimator* anim) {
+Tank* createTank(Texture* tex, StateFrameAnimator* anim) {
 	// 构造坦克
 	Tank* tank = new Tank();
 	tank->texture = tex;
 	tank->animator = anim;
+	tank->speed = TANK_SPEED;
 	tank->attachScreen(GameApp::GetInstance()->getScreen());
 	return tank;
 }
 
-FrameAnimator* createAnimator() {
+StateFrameAnimator* createAnimator() {
 	// 元素贴图索引数组
 	// 1型坦克
-	int tankSeqLen = 56;
+	int tankSeqLen = 14;
 	int tankOneSeq[] = {
-	//上
+			//上
 			15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 0,
 			// 右
 			15, 2, 15, 3, 15, 4, 15, 5, 15, 6, 15, 7, 15, 8,
@@ -48,9 +52,14 @@ FrameAnimator* createAnimator() {
 			16, 2, 16, 3, 16, 4, 16, 5, 16, 6, 16, 7, 16, 8, };
 	// 动画控制器
 	// 构造坦克使用的sprite
-	FrameAnimator* animator = new FrameAnimator();
-	animator->frameTick = 1000;
-	animator->sliceIndexesFromArray(tankOneSeq, tankSeqLen);
+	StateFrameAnimator* animator = new StateFrameAnimator();
+	animator->init();
+	animator->frameTick = 100;
+	animator->addStateFrame(UP, tankOneSeq, tankSeqLen);
+	animator->addStateFrame(RIGHT, tankOneSeq + 14, tankSeqLen);
+	animator->addStateFrame(DOWN, tankOneSeq + 14*2, tankSeqLen);
+	animator->addStateFrame(LEFT, tankOneSeq + 14*3, tankSeqLen);
+	animator->setState(UP);
 
 	return animator;
 }
@@ -59,39 +68,62 @@ FrameAnimator* createAnimator() {
  * 事件处理
  */
 void handleEvent(DisplayObject* target, SDL_Event event) {
-	Tank* tank = (Tank*)target;
+	Tank* tank = (Tank*) target;
+	Direction direction;
+	GameApp* app = GameApp::GetInstance();
+	Bullet* b;
+
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
 		case SDLK_UP:
-			tank->moveUp();
+			tank->move(UP);
 			break;
 		case SDLK_RIGHT:
-			tank->moveRight();
+			tank->move(RIGHT);
 			break;
 		case SDLK_DOWN:
-			tank->moveDown();
+			tank->move(DOWN);
 			break;
 		case SDLK_LEFT:
-			tank->moveLeft();
+			tank->move(LEFT);
+			break;
+		case SDLK_SPACE:
+			b = Bullet::create(tankTexture);
+			Log::i("space catched, create bullet");
+			tank->fireBullet(b);
+			app->addDisplayObject(b);
 			break;
 		default:
 			break;
 		}
 		break;
+
+	case SDL_KEYUP:
+		switch (event.key.keysym.sym) {
+		case SDLK_UP:
+		case SDLK_RIGHT:
+		case SDLK_DOWN:
+		case SDLK_LEFT:
+			tank->stopMove();
+			break;
 		default:
 			break;
+		}
+		break;
+
+	default:
+		break;
 	}
 }
-
 
 bool createGame() {
 	Log::i("create game scene");
 	GameApp* app = GameApp::GetInstance();
 
 	// 加载主贴图
-	TankTexture* tex = createTexture();
-	FrameAnimator *animtor = createAnimator();
+	tankTexture = createTexture();
+	StateFrameAnimator *animtor = createAnimator();
 
 	// 2型坦克
 	//obj->setDrawFunc(SDL_Surface2Texture);
@@ -99,9 +131,8 @@ bool createGame() {
 	//tank->addEventListener
 	//app->addDisplayObject(obj);
 
-	// 测试创建
-	for (int i = 0; i < 2; i++) {
-		Tank* tank = createTank(tex, animtor);
+	for (int i = 0; i < 1; i++) {
+		Tank* tank = createTank(tankTexture, animtor);
 		tank->w = SLICE_WIDTH;
 		tank->h = SLICE_HEIGHT;
 		tank->x = 10 + i * 40;
@@ -118,15 +149,15 @@ int main(int argc, char *argv[]) {
 	GameApp* app = GameApp::GetInstance();
 	app->init("tankwar");
 
-	// 初始化
+// 初始化
 	createGame();
 	app->gameLoop();
 	Log::i("end app");
 
-	//WindowManager& winManager = *(app->winMgr);
+//WindowManager& winManager = *(app->winMgr);
 
-	// gui add
-	// push button
+// gui add
+// push button
 	/*
 	 PushButton* btn = static_cast<PushButton*>(winManager.createWindow(
 	 "TaharezLook/Button", "JumpPushButton"));
@@ -151,6 +182,6 @@ int main(int argc, char *argv[]) {
 	 exitBtn->subscribeEvent(PushButton::EventClicked,
 	 Event::Subscriber(&onExitApp));
 	 */
-	// 创建登陆gui
-	// app->gameloop();
+// 创建登陆gui
+// app->gameloop();
 }

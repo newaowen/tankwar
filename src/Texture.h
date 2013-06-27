@@ -58,7 +58,7 @@ public:
     int getWidth() { return rect.w;}
     int getHeight() { return rect.h;}
     //virtual int getSliceWidth() { return width;}
-    //virtual int getSliceHeight() { return height;}
+    //virtual int getSliceHeight() { return height;} 
 
     // 生成子块纹理
     Texture* genSlice(int x, int y, int width, int height);
