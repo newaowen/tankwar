@@ -33,7 +33,6 @@ Tank* createTank(Texture* tex, StateFrameAnimator* anim) {
 	tank->texture = tex;
 	tank->animator = anim;
 	tank->speed = TANK_SPEED;
-	tank->attachScreen(GameApp::GetInstance()->getScreen());
 	return tank;
 }
 
@@ -141,6 +140,22 @@ bool createGame() {
 		app->addDisplayObject(tank);
 		tank->eventHandler = handleEvent;
 	}
+
+	/*
+	// 增加测试静态内容
+	Sprite* s = new Sprite();
+	TextureSliceIndex ts;
+	ts.i = 16;
+	ts.j = 0;
+	Texture* sTex = tankTexture->genSlice(ts);
+	s->texture = sTex;
+	s->w = SLICE_WIDTH;
+	s->h = SLICE_HEIGHT;
+	s->x = 200;
+	s->y = 60;
+	s->attachScreen(GameApp::GetInstance()->getScreen());
+	app->addDisplayObject(s);
+	*/
 
 	return true;
 }

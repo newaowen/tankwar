@@ -98,7 +98,9 @@ void GameApp::initSDL() {
  * 添加显示物体
  */
 void GameApp::addDisplayObject(DisplayObject* obj) {
-	this->displayObjects.push_back(obj);
+	// 设置screen
+	obj->attachScreen(screen);
+	displayObjects.push_back(obj);
 }
 
 int GameApp::cleanup() {
@@ -283,7 +285,7 @@ void GameApp::render() {
 	//Clears the colour buffer:
 	//glClear(GL_COLOR_BUFFER_BIT);
 
-	// draw scene
+	// draw scene, for collistion test
 	SDL_Rect rect;
 	rect.x = 0;
 	rect.y = 0;

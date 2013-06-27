@@ -32,9 +32,11 @@ namespace Tengine {
 class Sprite: public DisplayObject {
 public:
 	string id;
-	// 屏幕引用
-	SDL_Surface* screen;
+
 	Texture* texture;
+
+	// 屏幕引用
+	//	SDL_Surface* screen;
 	// 精灵大小
 	int w, h;
 	// 朝向
@@ -46,15 +48,17 @@ public:
 public:
 	Sprite() {}
 
+	/*
+	inline void attachScreen(SDL_Surface* screen) {
+			this->screen = screen;
+		}
+	*/
 	// 初始化参数
 	void build(Texture* tex, SDL_Rect rect);
 
 	// pending
 	// 设置以贴图尺寸为准
 	void useTextureSize();
-	inline void attachScreen(SDL_Surface* screen) {
-		this->screen = screen;
-	}
 
 	void draw();
 	void blitTexture(Texture* tex, SDL_Rect* rect);

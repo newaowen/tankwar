@@ -57,6 +57,9 @@ void Sprite::draw() {
 	dest.w = w;
 	dest.h = h;
 
+	Log::i("sprite blit surface: from (%d, %d, %d, %d) to (%f, %f, %d, %d)", texture->rect.x, texture->rect.y,
+			texture->rect.w, texture->rect.h, x, y, w, h);
+
 	blitTexture(texture, &dest);
 
 	/*

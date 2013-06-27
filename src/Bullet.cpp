@@ -14,7 +14,7 @@ Bullet::Bullet() {
 // 朝某方向移动
 void Bullet::move(Direction direction) {
 	actionStatus = ACTION_MOVE;
-	turn(direction);
+	setDirection(direction);
 	moveForward();
 }
 
@@ -57,11 +57,11 @@ Bullet* Bullet::create(Texture* tex) {
 			//上
 			3, 0,
 			// 右
-			5, 2,
+			5, 0,
 			// 下
-			6, 1,
+			6, 0,
 			// 左
-			4, 2, };
+			4, 0, };
 	// 动画控制器
 	StateFrameAnimator* animator = new StateFrameAnimator();
 	animator->init();
@@ -74,6 +74,16 @@ Bullet* Bullet::create(Texture* tex) {
 	return b;
 }
 
+void Bullet::update() {
+	// 更新坦克的位置，朝向，速度等计算
+	if (actionStatus == ACTION_MOVE) {
+		moveForward();
+		// 动画控制器计算当前纹理片段
+		animator->update();
+	}
+}
+
+
 void Bullet::draw() {
 	SDL_Rect rect;
 	rect.x = x;
@@ -81,11 +91,10 @@ void Bullet::draw() {
 	rect.w = w;
 	rect.h = h;
 
-	Log::i("bullet blit surface: to (%f, %f, %d, %d)", x, y, w, h);
 	TextureSliceIndex sliceIndex = animator->getCurSliceIndex();
 	Log::i("get cur slice index %d, %d", sliceIndex.i, sliceIndex.j);
 	Texture* tex = texture->genSlice(sliceIndex);
-	Log::i("bullet blit surface: from (%d, %d, %d, %d)", tex->rect.x, tex->rect.y, tex->rect.w, tex->rect.h);
+	//Log::i("bullet blit surface: to (%d, %d, %d, %d)", rect.x, rect.y, rect.w, rect.h);
 	// 显示
-	//blitTexture(tex, &rect);
+	blitTexture(tex, &rect);
 }

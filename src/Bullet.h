@@ -38,6 +38,9 @@ public:
 	void stopMove();
 
 	void setDirection(Direction direction);
+
+	void update();
+
 	// 朝某方向转动
 	// void turn(Direction direction);
 	void explode();

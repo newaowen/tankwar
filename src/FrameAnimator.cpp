@@ -42,7 +42,6 @@ void FrameAnimator::nextFrame() {
 
 TextureSliceIndex FrameAnimator::getCurSliceIndex() {
 	TextureSliceIndex sliceIndex;
-	Log::i("get cur slice index: %d", curFrameIndex);
 	sliceIndex = sliceIndexes[curFrameIndex];
 	return sliceIndex;
 }

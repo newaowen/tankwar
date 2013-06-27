@@ -79,6 +79,7 @@ void Tank::draw() {
 }
 
 void Tank::fireBullet(Bullet* b) {
+	// 发射时的初始位置与当前坦克朝向有关
 	b->tank = this;
 	b->x = x;
 	b->y = y;

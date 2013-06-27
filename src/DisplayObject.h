@@ -34,7 +34,10 @@ public:
 	// 位置
 	float x, y;
 	// 缓存位置
-	float  savedX, savedY;
+	float savedX, savedY;
+
+	// 屏幕引用
+	 SDL_Surface* screen;
 
 	// 是否可见
 	bool visible;
@@ -45,6 +48,13 @@ public:
 
 public:
 	DisplayObject();
+
+
+	inline void attachScreen(SDL_Surface* screen) {
+		this->screen = screen;
+	}
+
+
 	// 事件处理接口
 	virtual void handleEvent(SDL_Event evt);
 
